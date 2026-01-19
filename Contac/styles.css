@@ -7,6 +7,129 @@ body {
   background-color: #faf8ff;
 }
 
+/* HEADER */
+.header-principal {
+  background-color: #F9F7FF;
+  border-bottom: 1px solid #D9D9D9;
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+.header-contenido {
+  width: 100%;
+  padding: 0 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+/* LOGO */
+.logo-img {
+  height: 65px;
+  transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+  transform: scale(1.05);
+}
+
+/* NAV */
+.nav-principal ul {
+  display: flex;
+  gap: 18px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-principal a {
+  text-decoration: none;
+  color: #000;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-principal a:hover {
+  color: #4C3C68;
+}
+
+/* BUSCADOR */
+.contenedor-buscador {
+  display: flex;
+  align-items: center;
+}
+
+.contenedor-buscador input {
+  border: 1px solid #ced4da;
+  padding: 8px 14px;
+  border-radius: 25px 0 0 25px;
+  outline: none;
+}
+
+.contenedor-buscador button {
+  border: none;
+  background-color: #4C3C68;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 0 25px 25px 0;
+  cursor: pointer;
+}
+
+/* ICONOS */
+.iconos-acciones {
+  display: flex;
+  gap: 20px;
+  font-size: 1.4rem;
+}
+
+.iconos-acciones a {
+  text-decoration: none;
+  color: #4C3C68;
+}
+
+/* BOTÓN HAMBURGUESA */
+.barras {
+  display: none;
+  background-image: url('./../src/images/icono-menu.jpeg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+
+  .nav-principal,
+  .contenedor-buscador {
+    display: none;
+  }
+
+  .barras {
+    display: block;
+  }
+
+  .header-principal {
+    height: 80px;
+  }
+
+  .logo-img {
+    height: 45px;
+  }
+
+  .iconos-acciones {
+    gap: 12px;
+    font-size: 1.2rem;
+  }
+}
+
+
 /* TÍTULO */
 .caja-degradado {
   background: linear-gradient(to right, #c2b1e5, #ffcab3);
@@ -31,7 +154,7 @@ body {
   padding: 30px;
   border-radius: 15px;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
 }
 
@@ -45,23 +168,61 @@ body {
   margin: 10px 0;
 }
 
-.color-1 { background-color: #ffd5c2; }
-.color-2 { background-color: #fff1bf; }
-.color-3 { background-color: #d4c9f2; }
+.color-1 {
+  background-color: #ffd5c2;
+}
 
-/* CONTENEDOR DEL FORMULARIO */
+.color-2 {
+  background-color: #fff1bf;
+}
+
+.color-3 {
+  background-color: #d4c9f2;
+}
+
+
+/* Contenedor general */
+.contacto-layout {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+
+.contacto-info {
+  width: 40%;
+  text-align: center;
+}
+
+/* Imagen */
+.imagen-contacto {
+  width: 100%;
+  max-width: 380px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+/* Descripción */
+.descripcion-contacto {
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.1);
+  line-height: 1.5;
+}
+
 .formulario-contacto {
   max-width: 520px;
   background: #f7f6fb;
+  width: 60%;
   margin-left: auto;
   margin-right: 0;
-  padding: 40px 5%; 
-  
+  padding: 40px 5%;
+
   border-radius: 15px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
+
 .seccion-contacto {
-  padding: 10px 30px; /* El 5% le da un margen elegante a los lados */
+  padding: 10px 30px;
 }
 
 /* FILAS */
@@ -97,19 +258,93 @@ body {
   border-radius: 8px;
   cursor: pointer;
 }
+
 h2 {
   text-align: center;
-  width: 100%;      
-  margin-bottom: 30px; 
+  width: 100%;
+  margin-bottom: 30px;
   font-family: "Figtree", sans-serif;
 }
 
 h3 {
   text-align: center;
   width: 100%;
-  margin-bottom: 30px; 
+  margin-bottom: 30px;
   font-family: "Figtree", sans-serif;
 
 }
 
+@media (max-width: 768px) {
 
+  /* Pasa a columna */
+  .contacto-layout {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  /* Imagen arriba */
+  .contacto-info {
+    width: 100%;
+  }
+
+  .imagen-contacto {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto 15px;
+    border-radius: 10px;
+  }
+
+
+  /* Texto centrado */
+  .descripcion-contacto {
+    font-size: 14px;
+    padding: 0 10px;
+  }
+
+  /* El formulario ocupa casi todo el ancho */
+
+  .formulario-contacto {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  /* Las filas pasan a una sola columna */
+  .form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+
+  .seccion-contacto {
+    padding: 10px 15px;
+  }
+}
+
+a {
+    text-decoration: none;
+     color: black;
+}
+a:hover {
+    text-decoration: none; 
+    color: black;
+}
