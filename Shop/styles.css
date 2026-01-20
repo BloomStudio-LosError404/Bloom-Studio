@@ -1,6 +1,3 @@
-/* =========================
-   Variables base
-========================= */
 :root {
   --bg-soft: #f6f3fb;
 
@@ -10,11 +7,10 @@
   --card-bg: #f0f0f0;
   --border-soft: rgba(0, 0, 0, 0.08);
   --text-muted: rgba(0, 0, 0, 0.7);
+
+  --drawer-bg: #ffffff;
 }
 
-/* =========================
-   Base
-========================= */
 body {
   background: var(--bg-soft);
 }
@@ -23,9 +19,6 @@ body {
   min-height: 60vh;
 }
 
-/* =========================
-   Hero / Título
-========================= */
 .store-hero {
   background: linear-gradient(90deg, var(--grad-a), var(--grad-b));
 }
@@ -34,21 +27,15 @@ body {
   font-weight: 700;
   letter-spacing: 0.5px;
 }
-
-/* =========================
-   Paneles laterales
-========================= */
 .store-panel {
   border-radius: 14px;
   background: linear-gradient(180deg, var(--grad-a), var(--grad-b));
 }
 
-/* Panel único de filtros (mockup) */
 .store-panel--filters {
   background: linear-gradient(180deg, var(--grad-a), var(--grad-b));
 }
 
-/* Secciones internas sin “cajas” */
 .filter-section {
   padding-bottom: 0.75rem;
 }
@@ -64,25 +51,45 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* =========================
-   Ordenamiento
-========================= */
 .store-sort {
-  max-width: 220px;
+  max-width: 180px;
 }
 
-/* =========================
-   Enlace envolvente de tarjeta
-========================= */
+.store-mobilebar {
+  display: grid;
+  grid-template-columns: 44px 1fr 140px;
+  gap: 0.6rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.store-search {
+  min-width: 0;
+}
+
+.store-iconbtn {
+  width: 44px;
+  height: 38px;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.store-iconbtn:focus {
+  outline: 2px solid rgba(13, 110, 253, 0.6);
+  outline-offset: 2px;
+}
+
 .product-link {
   text-decoration: none;
   color: inherit;
   display: block;
 }
 
-/* =========================
-   Tarjetas de producto
-========================= */
+
 .product-card {
   position: relative;
   height: 100%;
@@ -98,7 +105,6 @@ body {
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
 }
 
-/* Imagen */
 .product-img {
   width: 100%;
   height: 220px;
@@ -107,7 +113,6 @@ body {
   display: block;
 }
 
-/* Contenido */
 .product-body {
   padding: 0.85rem;
 }
@@ -124,7 +129,6 @@ body {
   color: var(--text-muted);
 }
 
-/* Meta */
 .product-meta {
   display: flex;
   align-items: center;
@@ -141,9 +145,7 @@ body {
   background: rgba(25, 135, 84, 0.08);
 }
 
-/* =========================
-   Botón de favoritos
-========================= */
+
 .wishlist-btn {
   position: absolute;
   top: 10px;
@@ -172,9 +174,7 @@ body {
   outline-offset: 2px;
 }
 
-/* =========================
-   Paginación
-========================= */
+/* Paginación */
 .store-pagination {
   gap: 0.4rem;
 }
@@ -196,13 +196,49 @@ body {
   font-weight: 700;
 }
 
-/* =========================
-   Formularios (ajustes suaves)
-========================= */
-.form-check-input {
-  cursor: pointer;
+
+.filters-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 999;
 }
 
-.form-check-label {
-  cursor: pointer;
+.filters-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: min(88vw, 360px);
+  background: var(--drawer-bg);
+  z-index: 1000;
+  transform: translateX(-105%);
+  transition: transform 160ms ease-in-out;
+  box-shadow: 10px 0 24px rgba(0,0,0,0.16);
+  display: flex;
+  flex-direction: column;
+}
+
+.filters-drawer.is-open {
+  transform: translateX(0);
+}
+
+.filters-drawer__header {
+  padding: 0.85rem 0.85rem;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filters-drawer__body {
+  padding: 0.85rem;
+  overflow: auto;
+}
+
+/* Responsive ajustes */
+@media (max-width: 575.98px) {
+  .store-sort { max-width: 140px; }
+  .product-img { height: 190px; }
+  .product-body { padding: 0.75rem; }
 }

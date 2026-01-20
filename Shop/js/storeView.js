@@ -1,6 +1,8 @@
-"use strict";
-
-import { DEFAULT_PAGE_SIZE, ENABLE_EXTERNAL_PRODUCT_PAGE, PRODUCT_DETAIL_URL } from "./config.js";
+import {
+  DEFAULT_PAGE_SIZE,
+  ENABLE_EXTERNAL_PRODUCT_PAGE,
+  PRODUCT_DETAIL_URL
+} from "./config.js";
 
 export const createStore = ({ products = [] }) => {
   const state = {
@@ -18,6 +20,8 @@ export const createStore = ({ products = [] }) => {
   };
 
   const $ = (id) => document.getElementById(id);
+
+  const exists = (id) => !!document.getElementById(id);
 
   const saveFavorites = () => {
     localStorage.setItem("favorites", JSON.stringify([...state.favorites]));
@@ -37,27 +41,18 @@ export const createStore = ({ products = [] }) => {
       : state.favorites.add(productId);
 
     saveFavorites();
-    render();
+    renderStore();
   };
 
   const goToProduct = (productId) => {
-    if (ENABLE_EXTERNAL_PRODUCT_PAGE) {
-      window.location.href = `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(productId)}`;
-      return;
-    }
-    history.pushState({ view: "detail", id: productId }, "", `?product=${encodeURIComponent(productId)}`);
-    render();
-  };
+    if (!ENABLE_EXTERNAL_PRODUCT_PAGE) return;
 
-  const backToStore = () => {
-    history.pushState({ view: "store" }, "", "index.html");
-    render();
-  };
+    // Link vacío por ahora (placeholder). Evitamos recargar.
+    // Cuando exista ProductDetail real, cambiar esto por esto:
+    // window.location.href = `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(productId)}`;
+    if (!PRODUCT_DETAIL_URL) return;
 
-  const getViewFromURL = () => {
-    const params = new URLSearchParams(window.location.search);
-    const pid = params.get("product");
-    return pid ? { view: "detail", id: pid } : { view: "store" };
+    window.location.href = `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(productId)}`;
   };
 
   const applyFilters = (list) => {
@@ -126,18 +121,20 @@ export const createStore = ({ products = [] }) => {
     const start = (state.page - 1) * state.pageSize;
     const pageItems = filtered.slice(start, start + state.pageSize);
 
-    grid.innerHTML = pageItems
-      .map((p) => {
-        const fav = state.favorites.has(p.id);
-        const img = normalizeImage(p);
+    grid.innerHTML = pageItems.map((p) => {
+      const fav = state.favorites.has(p.id);
+      const img = normalizeImage(p);
 
-        return `
-          <div class="col-12 col-sm-6 col-lg-4" role="listitem">
-            <article class="product-card" data-action="open" data-id="${p.id}" aria-label="Producto">
+      return `
+        <div class="col-12 col-sm-6 col-lg-4" role="listitem">
+          <a class="product-link" href="" data-action="open" data-id="${p.id}" aria-label="Abrir producto">
+            <article class="product-card" aria-label="Producto">
               <button class="wishlist-btn" type="button" data-action="favorite" data-id="${p.id}" aria-label="Favorito">
                 ${fav ? "♥" : "♡"}
               </button>
-              <img class="product-img" src="${img.src}" alt="${img.alt}">
+
+              <img class="product-img" src="${img.src}" alt="${img.alt}" />
+
               <div class="product-body">
                 <h3 class="product-name">${p.name ?? "Producto"}</h3>
                 <p class="product-desc">${p.description ?? "Descripción pendiente."}</p>
@@ -147,49 +144,53 @@ export const createStore = ({ products = [] }) => {
                 </div>
               </div>
             </article>
-          </div>
-        `;
-      })
-      .join("");
+          </a>
+        </div>
+      `;
+    }).join("");
 
     renderPagination(totalPages);
   };
 
-  const renderDetail = (productId) => {
-    const grid = $("productsGrid");
-    const pagination = $("pagination");
-    pagination.innerHTML = "";
-
-    const product = state.products.find((p) => p.id === productId);
-    if (!product) {
-      grid.innerHTML = `<div class="col-12"><div class="alert alert-warning">Producto no encontrado.</div></div>`;
-      return;
-    }
-
-    grid.innerHTML = `
-      <div class="col-12">
-        <button class="btn btn-link p-0 mb-3" type="button" data-action="back">← Volver a la tienda</button>
-        <div class="store-panel p-3">
-          <h2 class="mb-2">${product.name ?? "Producto"}</h2>
-          <p class="mb-3">${product.description ?? "Descripción pendiente."}</p>
-          <div class="d-flex gap-3 align-items-center">
-            <strong>$${Number(product.price || 0).toFixed(2)}</strong>
-            <span>⭐ ${product.rating ?? 0} (${product.reviews ?? 0})</span>
-          </div>
-          <div class="mt-3">
-            <button class="btn btn-dark" type="button" disabled>Simulación: añadir al carrito</button>
-          </div>
-        </div>
-      </div>
-    `;
+  const openFilters = () => {
+    if (!exists("filtersDrawer")) return;
+    const drawer = $("filtersDrawer");
+    const overlay = $("filtersOverlay");
+    drawer.classList.add("is-open");
+    drawer.setAttribute("aria-hidden", "false");
+    overlay.hidden = false;
+    $("filtersToggle")?.setAttribute("aria-expanded", "true");
   };
 
-  const render = () => {
-    const view = getViewFromURL();
-    view.view === "detail" ? renderDetail(view.id) : renderStore();
+  const closeFilters = () => {
+    if (!exists("filtersDrawer")) return;
+    const drawer = $("filtersDrawer");
+    const overlay = $("filtersOverlay");
+    drawer.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+    overlay.hidden = true;
+    $("filtersToggle")?.setAttribute("aria-expanded", "false");
+  };
+
+  const syncTextControls = (value) => {
+    if (exists("storeSearch")) $("storeSearch").value = value;
+    if (exists("storeSearchDesktop")) $("storeSearchDesktop").value = value;
+  };
+
+  const syncSortControls = (value) => {
+    if (exists("sortSelect")) $("sortSelect").value = value;
+    if (exists("sortSelectDesktop")) $("sortSelectDesktop").value = value;
   };
 
   const bindEvents = () => {
+    $("filtersToggle")?.addEventListener("click", openFilters);
+    $("filtersClose")?.addEventListener("click", closeFilters);
+    $("filtersOverlay")?.addEventListener("click", closeFilters);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeFilters();
+    });
+
     document.addEventListener("click", (e) => {
       const el = e.target.closest("[data-action]");
       if (!el) return;
@@ -198,34 +199,49 @@ export const createStore = ({ products = [] }) => {
 
       if (action === "favorite") {
         e.stopPropagation();
+        e.preventDefault();
         toggleFavorite(id);
+        return;
       }
 
       if (action === "open") {
+        e.preventDefault(); // href="" placeholder
         goToProduct(id);
+        return;
       }
 
       if (action === "page") {
         state.page = Number(page);
-        render();
-      }
-
-      if (action === "back") {
-        backToStore();
+        renderStore();
+        return;
       }
     });
 
-    $("storeSearch").addEventListener("input", (e) => {
-      state.search = e.target.value;
+    const onSearch = (value) => {
+      state.search = value;
       state.page = 1;
-      render();
-    });
+      syncTextControls(value);
+      renderStore();
+    };
+
+    $("storeSearch")?.addEventListener("input", (e) => onSearch(e.target.value));
+    $("storeSearchDesktop")?.addEventListener("input", (e) => onSearch(e.target.value));
+
+    const onSort = (value) => {
+      state.sort = value;
+      state.page = 1;
+      syncSortControls(value);
+      renderStore();
+    };
+
+    $("sortSelect")?.addEventListener("change", (e) => onSort(e.target.value));
+    $("sortSelectDesktop")?.addEventListener("change", (e) => onSort(e.target.value));
 
     document.querySelectorAll(".filter-category").forEach((cb) =>
       cb.addEventListener("change", (e) => {
         e.target.checked ? state.categories.add(e.target.value) : state.categories.delete(e.target.value);
         state.page = 1;
-        render();
+        renderStore();
       })
     );
 
@@ -233,7 +249,7 @@ export const createStore = ({ products = [] }) => {
       cb.addEventListener("change", (e) => {
         e.target.checked ? state.colors.add(e.target.value) : state.colors.delete(e.target.value);
         state.page = 1;
-        render();
+        renderStore();
       })
     );
 
@@ -241,31 +257,31 @@ export const createStore = ({ products = [] }) => {
       cb.addEventListener("change", (e) => {
         e.target.checked ? state.sizes.add(e.target.value) : state.sizes.delete(e.target.value);
         state.page = 1;
-        render();
+        renderStore();
       })
     );
 
-    $("sortSelect").addEventListener("change", (e) => {
-      state.sort = e.target.value;
-      state.page = 1;
-      render();
-    });
-
-    $("applyPrice").addEventListener("click", () => {
+    $("applyPrice")?.addEventListener("click", () => {
       state.priceMin = $("priceMin").value || null;
       state.priceMax = $("priceMax").value || null;
       state.page = 1;
-      render();
+      renderStore();
     });
 
-    window.addEventListener("popstate", render);
+    $("mApplyPrice")?.addEventListener("click", () => {
+      state.priceMin = $("mPriceMin").value || null;
+      state.priceMax = $("mPriceMax").value || null;
+      state.page = 1;
+      renderStore();
+      closeFilters();
+    });
   };
 
   const setProducts = (newProducts) => {
     state.products = Array.isArray(newProducts) ? newProducts : [];
     state.page = 1;
-    render();
+    renderStore();
   };
 
-  return { bindEvents, render, setProducts };
+  return { bindEvents, render: renderStore, setProducts };
 };

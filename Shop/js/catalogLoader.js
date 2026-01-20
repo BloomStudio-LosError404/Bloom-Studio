@@ -1,5 +1,3 @@
-"use strict";
-
 import { DATA_SOURCE_URL } from "./config.js";
 
 /*
