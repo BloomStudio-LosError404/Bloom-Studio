@@ -19,7 +19,7 @@
       "sizes": ["S", "M", "L"],
       "tags": ["personalizable"],
       "image": {
-        "src": "https://via.placeholder.com/640x480?text=Producto",
+        "src": "../src/images/products/playeras/playera-001.png",
         "alt": "Imagen referencial del producto"
       }
     },
@@ -36,7 +36,7 @@
       "sizes": ["UNICA"],
       "tags": ["playera"],
       "image": {
-        "src": "https://via.placeholder.com/640x480?text=Producto",
+        "src": "../src/images/products/playeras/playera-002.png",
         "alt": "Imagen referencial del producto"
       }
     },
@@ -53,7 +53,7 @@
       "sizes": ["UNICA"],
       "tags": ["regalo"],
       "image": {
-        "src": "https://via.placeholder.com/640x480?text=Producto",
+        "src": "../src/images/products/playeras/playera-003.png",
         "alt": "Imagen referencial del producto"
       }
     },
@@ -70,7 +70,7 @@
       "sizes": ["UNICA"],
       "tags": ["regalo"],
       "image": {
-        "src": "https://via.placeholder.com/640x480?text=Producto",
+        "src": "../src/images/products/playeras/playera-004.png",
         "alt": "Imagen referencial del producto"
       }
     },
@@ -87,7 +87,7 @@
       "sizes": ["UNICA"],
       "tags": ["regalo"],
       "image": {
-        "src": "https://via.placeholder.com/640x480?text=Producto",
+        "src": "../src/images/products/playeras/playera-005.png",
         "alt": "Imagen referencial del producto"
       }
     },
@@ -104,7 +104,7 @@
       "sizes": ["UNICA"],
       "tags": ["regalo"],
       "image": {
-        "src": "https://via.placeholder.com/640x480?text=Producto",
+        "src": "../src/images/products/servicios-digitales/servicio-001.png",
         "alt": "Imagen referencial del producto"
       }
     },
@@ -121,7 +121,7 @@
       "sizes": ["UNICA"],
       "tags": ["regalo"],
       "image": {
-        "src": "https://via.placeholder.com/640x480?text=Producto",
+        "src": "../src/images/products/servicios-digitales/servicio-002.png",
         "alt": "Imagen referencial del producto"
       }
     },
@@ -138,7 +138,41 @@
       "sizes": ["UNICA"],
       "tags": ["regalo"],
       "image": {
-        "src": "https://via.placeholder.com/640x480?text=Producto",
+        "src": "../src/images/products/temporada-14-febrero/temporada-001.png",
+        "alt": "Imagen referencial del producto"
+      }
+    },
+    {
+      "id": "p-0009",
+      "name": "Producto personalizable",
+      "description": "Descripción pendiente de definir.",
+      "price": 0,
+      "rating": 4.6,
+      "reviews": 12,
+      "category": "papeleria",
+      "season": "base",
+      "colors": ["otros"],
+      "sizes": ["UNICA"],
+      "tags": ["regalo"],
+      "image": {
+        "src": "../src/images/products/temporada-14-febrero/temporada-002.png",
+        "alt": "Imagen referencial del producto"
+      }
+    },
+    {
+      "id": "p-0010",
+      "name": "Producto personalizable",
+      "description": "Descripción pendiente de definir.",
+      "price": 0,
+      "rating": 4.6,
+      "reviews": 12,
+      "category": "papeleria",
+      "season": "base",
+      "colors": ["otros"],
+      "sizes": ["UNICA"],
+      "tags": ["regalo"],
+      "image": {
+        "src": "../src/images/products/temporada-14-febrero/temporada-003.png",
         "alt": "Imagen referencial del producto"
       }
     }
