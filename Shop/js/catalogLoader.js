@@ -1,9 +1,7 @@
 import { DATA_SOURCE_URL } from "./config.js";
 
 /*
-  Cuando haya un back, cambiar esto por esto:
-  - agregar query params (season, category, etc.)
-  - manejar auth si aplica
+  Cuando haya un back, se debe de cambiar esto
 */
 export const loadCatalog = async () => {
   try {

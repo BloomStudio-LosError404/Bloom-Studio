@@ -48,8 +48,7 @@ export const createStore = ({ products = [] }) => {
     if (!ENABLE_EXTERNAL_PRODUCT_PAGE) return;
 
     // Link vacío por ahora (placeholder). Evitamos recargar.
-    // Cuando exista ProductDetail real, cambiar esto por esto:
-    // window.location.href = `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(productId)}`;
+    // Cuando exista ProductDetail real, cambiar esto.
     if (!PRODUCT_DETAIL_URL) return;
 
     window.location.href = `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(productId)}`;
@@ -61,7 +60,7 @@ export const createStore = ({ products = [] }) => {
     if (state.search.trim()) {
       const q = state.search.toLowerCase();
       result = result.filter((p) =>
-        `${p.name ?? ""} ${p.description ?? ""}`.toLowerCase().includes(q)
+        `${p.name ?? ""} ${p.description ?? ""}${p.category ?? ""}`.toLowerCase().includes(q)
       );
     }
 
