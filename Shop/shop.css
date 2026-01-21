@@ -174,7 +174,6 @@ body {
   outline-offset: 2px;
 }
 
-/* Paginación */
 .store-pagination {
   gap: 0.4rem;
 }
@@ -236,7 +235,6 @@ body {
   overflow: auto;
 }
 
-/* Responsive ajustes */
 @media (max-width: 575.98px) {
   .store-sort { max-width: 140px; }
   .product-img { height: 190px; }
