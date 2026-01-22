@@ -215,7 +215,7 @@ body {
 .lista-productos.encabezado {
     display: grid;
     /* Define 5 columnas con tamaños relativos */
-    grid-template-columns: 100px 1fr 100px 100px 100px; 
+    grid-template-columns: 100px 100px 100px 100px 100px; 
     width: 100%;
     padding-bottom: 10px;
     border-bottom: 2px solid #333;
@@ -237,8 +237,8 @@ body {
     flex: 1;
     display:flex;
     flex-direction:column;
-    aling-items: center;
-    text-aling: center;
+    ext-align: center;
+    text-align: center;
     background-color: #ffd5c2; 
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -262,7 +262,7 @@ body {
     width: 100%;
     margin-top: 10px;
     cursor: pointer;
-    font-size: 1.1em;
+    font-size: 10px;
 }
 
 /* Media Query para responsividad en celulares y tablets */
