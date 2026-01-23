@@ -78,17 +78,21 @@
 }
 
 .forgot-password {
-  font-size: 14px;
-  color: #4a3c6b;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f4fd8;
   text-decoration: none;
-  margin-top: 4px;
-  margin-bottom: 12px;
+  margin-top: 6px;
+  margin-bottom: 14px;
   align-self: flex-start;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 .forgot-password:hover {
+  color: #163aa6;
   text-decoration: underline;
 }
+
 
 .login-button {
   margin-top: 12px;
