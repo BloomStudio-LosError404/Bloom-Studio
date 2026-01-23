@@ -380,6 +380,34 @@ body {
 }
 
 /* Carousel */
+
+/* Diferenciadores */
+.about-different-div{
+  background: linear-gradient(90deg, #FFCAB3, #C2B1E5);
+  display: flex;
+  justify-content: center;
+  text-align: justify;
+}
+.abot-diff-p{
+  text-align: justify;
+}
+
+.different-title{
+  margin: 1rem;
+}
+
+.img-about-different{
+  width: 50%;
+  padding: 2rem;
+}
+
+.about-different-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 /* ===== TEAM CAROUSEL ===== */
 
 /* CONTENEDOR */
