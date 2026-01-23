@@ -1,3 +1,2 @@
-import { loadLayout, loadPartial } from "../../Shop/js/layoutLoader";
-
+import { loadLayout } from "./layoutLoader.js";
 await loadLayout();
