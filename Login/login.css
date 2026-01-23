@@ -9,3 +9,12 @@
     justify-content: center;
     align-items: flex-start;
 }
+
+.login-card {
+  width: 100%;
+  max-width: 560px;
+  border-radius: 18px;
+  padding: 48px 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #f2b6a7, #b9a7e6);
+}
