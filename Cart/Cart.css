@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap');
 
+* {
+    font-family: "Figtree", sans-serif;
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: "Figtree", sans-serif;
   background-color: #faf8ff;
   box-sizing: border-box;
 }
@@ -191,6 +194,14 @@ body {
     align-items: flex-start;
     padding: 20px
 
+}
+a {
+    text-decoration: none;
+     color: black;
+}
+a:hover {
+    text-decoration: none; 
+    color: black;
 }
 
 /* Columna izquierda resumen de productos */
