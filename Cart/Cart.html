@@ -69,7 +69,8 @@
         <h1 class="caja-degradado">Tu carrito</h1>
         <div class="carrito">
             <section class="lista-productos">
-                <p id = "carrito-vacio"> No tienes artículos por el momento. <a href ="agregar el link de la pagina producto individual">¿Quieres agregar algunos?</a> </p>
+                <p id="carrito-vacio"> No tienes artículos por el momento. <a
+                        href="agregar el link de la pagina producto individual">¿Quieres agregar algunos?</a> </p>
                 <div class="encabezado">
                     <span class="encabezado-producto">Producto</span>
                     <span class="encabezado-precio">Precio</span>
@@ -101,6 +102,18 @@
         </div>
         <section>
             <h2 class="caja-degradado">Te podría interesar</h2>
+            <div class="carousel-container">
+                <button class="prev-btn" onclick="moveSlide(-1)">&#10094;</button>
+
+                <div class="carousel-track-container">
+                    <div id="product-track" class="carousel-track">
+                        <!-- Los productos del JSON se cargarán aquí -->
+                    </div>
+                </div>
+
+                <button class="next-btn" onclick="moveSlide(1)">&#10095;</button>
+            </div>
+
 
         </section>
 
@@ -215,6 +228,8 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
     <script src="../src/ScriptHeader/script.js"></script>
+    <script src="./Cart.js"></script>
+    <script src="./Carrusel.js"></script>
 </body>
 
 </html>
