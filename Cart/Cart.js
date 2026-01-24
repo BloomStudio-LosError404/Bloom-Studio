@@ -1,14 +1,13 @@
 // 1. SELECCIÓN DE ELEMENTOS
 const contenedorTarjetas = document.getElementById("product-items-container");
-const unidadesElement = document.getElementById("unidades"); // Subtotal
+const unidadesElement = document.getElementById("unidades"); 
 const envioElement = document.getElementById("envio");
-const precioElement = document.getElementById("precio"); // Total final
+const precioElement = document.getElementById("precio"); 
 const carritoVacioElement = document.getElementById("carrito-vacio");
 const vaciarCarritoElement = document.getElementById("vaciar");
 const inputCupon = document.querySelector(".cupon input");
 const botonCupon = document.querySelector(".aplicar-cupon");
 
-// 2. CONFIGURACIÓN DE CUPONES (Let porque el valor cambia)
 const CUPONES_VALIDOS = {
     "BLOOM10": 0.10,
     "VERANO5": 0.05
@@ -16,7 +15,7 @@ const CUPONES_VALIDOS = {
 };
 let descuentoAplicado = 0; 
 
-// 3. RENDERIZAR PRODUCTOS
+
 function crearTarjetasProductosCarrito() {
     contenedorTarjetas.innerHTML = "";
     const productos = JSON.parse(localStorage.getItem("Articulos")) || [];
@@ -64,7 +63,7 @@ function cambiarCantidad(id, cambio) {
     }
 }
 
-// 5. ACTUALIZAR TOTALES
+
 function actualizarTotales() {
     const productos = JSON.parse(localStorage.getItem("Articulos")) || [];
     let subtotal = 0;
@@ -77,13 +76,12 @@ function actualizarTotales() {
     let ahorro = subtotal * descuentoAplicado;
     let totalFinal = subtotal - ahorro + costoEnvio;
 
-    // Inyectar en HTML (usando toFixed para centavos)
+
     unidadesElement.innerText = `$${subtotal.toFixed(2)}`;
     envioElement.innerText = `$${costoEnvio.toFixed(2)}`;
     precioElement.innerText = `$${totalFinal.toFixed(2)}`;
 }
 
-// 6. BOTÓN CUPÓN
 botonCupon.addEventListener("click", () => {
     const codigo = inputCupon.value.trim().toUpperCase();
     if (CUPONES_VALIDOS[codigo]) {
@@ -96,7 +94,7 @@ botonCupon.addEventListener("click", () => {
     actualizarTotales();
 });
 
-// 7. VACIAR TODO
+
 vaciarCarritoElement.addEventListener("click", () => {
     localStorage.removeItem("Articulos");
     descuentoAplicado = 0;
@@ -104,10 +102,8 @@ vaciarCarritoElement.addEventListener("click", () => {
     crearTarjetasProductosCarrito();
 });
 
-// Inicializar
 crearTarjetasProductosCarrito();
 
-// Para agregar productos al carrito y que se muetsren en el header
 const cuentaCarritoElement = document.getElementById("Cuesta carrito");
 function actualizarNumeroCarrito() {
     const memoria = JSON.parse(localStorage.getItem("Articulos"));
