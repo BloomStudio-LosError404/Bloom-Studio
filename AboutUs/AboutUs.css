@@ -407,6 +407,25 @@ body {
   align-items: center;
 }
 
+/* FAQ */
+.faq-section {
+  background: #f7f4fc;
+}
+
+.faq-img {
+  max-width: 420px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2.2rem;
+  }
+
+  .faq-img {
+    max-width: 280px;
+  }
+}
 
 /* ===== TEAM CAROUSEL ===== */
 
