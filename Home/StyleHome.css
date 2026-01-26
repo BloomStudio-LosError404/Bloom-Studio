@@ -178,8 +178,7 @@
 
 .hero {
   width: 100%;
-  min-height: 560px;   /* altura base */
-  max-height: 900px;   /* evita que se vea enorme */
+  min-height: 560px;   /* altura base */   /* evita que se vea enorme */
   background: linear-gradient(90deg, #FFCAB3, #C2B1E5);
   overflow: hidden;
 }
@@ -288,14 +287,11 @@
 
 /* Text Loop Carousel */
 .text-carousel-full {
-  width: 100vw;
+width: 100%;
   overflow: hidden;
   background: #000;
   color: #fff;
   padding: 14px 0;
-  position: relative;
-  left: 50%;
-  margin-left: -50vw;
 
 }
 
@@ -314,26 +310,57 @@
 }
 
 /* Productos titulo */
+.title-category {
+  text-align:start;
+  margin: 50px  5%;
+}
+.title-category h2 {
+  font-size: 2.5em;
+  font-weight: bold;
+}
+
+
+
 
 /* categorias productos */
 
 .products {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
-  margin:0 5%;
+  gap: 80px;
+  margin: 0 5%;
 }
 
 .product-card {
   position: relative;
   border-radius: 20px;
-  padding: 24px;
+  padding: 50px;
   min-height: 180px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  overflow: hidden;
+
+  /* Animación de entrada */
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.8s ease forwards;
+
+  /* Hover suave */
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
+
+/* Delay en cascada */
+.product-card:nth-child(1) { animation-delay: 0.1s; }
+.product-card:nth-child(2) { animation-delay: 0.25s; }
+.product-card:nth-child(3) { animation-delay: 0.4s; }
+
+/* Hover */
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+}
+
 
 .card-content small {
   font-size: 0.85rem;
@@ -353,15 +380,28 @@
   color: #fff;
   cursor: pointer;
   font-size: 0.9rem;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
+
+.card-content button:hover {
+  background: #3d315a;
+  transform: scale(1.05);
+}
+
+
 
 .product-card img {
   width: 120px;
   height: auto;
   object-fit: contain;
+  transition: transform 0.35s ease;
 }
 
-/* 🎨 Colores */
+.product-card:hover img {
+  transform: scale(1.08) rotate(-2deg);
+}
+
+
 .card-yellow {
   background: #fff5db;
 }
@@ -374,15 +414,28 @@
   background: #cdeee6;
 }
 
-/* 📱 Responsive */
+
 @media (max-width: 768px) {
+  .products {
+    gap: 40px;
+  }
+
   .product-card {
     flex-direction: column;
     text-align: center;
     gap: 16px;
+    padding: 32px;
   }
 
   .product-card img {
     width: 100px;
+  }
+}
+
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
