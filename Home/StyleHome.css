@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
 }
 
 
@@ -181,7 +180,7 @@
   width: 100%;
   min-height: 560px;   /* altura base */
   max-height: 900px;   /* evita que se vea enorme */
-  background: linear-gradient(90deg, #ffd6c9, #cbb8ff);
+  background: linear-gradient(90deg, #FFCAB3, #C2B1E5);
   overflow: hidden;
 }
 
@@ -234,9 +233,9 @@
 .hero-btn {
   display: inline-block;
   padding: 12px 32px;
-  background: #6b5cff;
+  background: #4C3C68;
   color: #fff;
-  border-radius: 30px;
+  border-radius: 10px;
   text-decoration: none;
   font-weight: 600;
   transition: transform 0.3s;
@@ -255,9 +254,7 @@
 .hero-image img {
   width: 340px;
   height: 340px;
-  border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 25px 45px rgba(0,0,0,0.2);
 }
 
 /* FLECHAS */
@@ -286,5 +283,106 @@
 
   .hero-text p {
     margin: 0 auto 30px;
+  }
+}
+
+/* Text Loop Carousel */
+.text-carousel-full {
+  width: 100vw;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  padding: 14px 0;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
+
+}
+
+.text-track {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  white-space: nowrap;
+  will-change: transform;
+  transition: filter 0.3s ease;
+}
+
+.text-track span {
+  font-size: clamp(0.9rem, 2.5vw, 1.3rem); /* 📱 responsive */
+  letter-spacing: 0.5px;
+}
+
+/* Productos titulo */
+
+/* categorias productos */
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin:0 5%;
+}
+
+.product-card {
+  position: relative;
+  border-radius: 20px;
+  padding: 24px;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.card-content small {
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.card-content h3 {
+  margin: 4px 0 14px;
+  font-size: 1.2rem;
+}
+
+.card-content button {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: #4b3c6b;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.product-card img {
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* 🎨 Colores */
+.card-yellow {
+  background: #fff5db;
+}
+
+.card-purple {
+  background: #ece7f7;
+}
+
+.card-green {
+  background: #cdeee6;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .product-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .product-card img {
+    width: 100px;
   }
 }
