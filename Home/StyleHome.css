@@ -179,8 +179,10 @@
 
 .hero {
   width: 100%;
-  height: 100vh;
-  background: linear-gradient(120deg, #ffd6c9, #cbb8ff);
+  min-height: 560px;   /* altura base */
+  max-height: 900px;   /* evita que se vea enorme */
+  background: linear-gradient(90deg, #ffd6c9, #cbb8ff);
+  overflow: hidden;
 }
 
 /* SWIPER */
@@ -191,7 +193,7 @@
 
 .hero-slide {
   display: flex;
-  align-items: flex-start; /* 👈 IMPORTANTE */
+  align-items: flex-start; 
 }
 
 /* CONTENEDOR */
@@ -201,7 +203,7 @@
   margin: 0 auto;
 
   /* 👇 ESPACIO SUPERIOR */
-  padding: 140px 40px 0;
+  padding: 100px 40px 60px;
 
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -266,6 +268,15 @@
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
+    .hero {
+    min-height: 620px;
+  }
+
+  .hero-container {
+    padding: 80px 20px 60px;
+  }
+
+
   .hero-container {
     grid-template-columns: 1fr;
     gap: 50px;
