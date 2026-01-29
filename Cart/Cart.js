@@ -35,7 +35,7 @@ function crearTarjetasProductosCarrito() {
             nuevoProducto.classList = "tarjeta-producto";
 
             nuevoProducto.innerHTML = `
-                <img src="./img/productos/${producto.id}.jpg" alt="${producto.nombre}">
+                <img src="../src/images/products/temporada-14-febrero/temporada-009.JPG" alt="${producto.nombre}">
                 <h3>${producto.nombre}</h3>
                 <p>$${producto.precio}</p>
                 <div>
