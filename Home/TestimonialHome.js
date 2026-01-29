@@ -48,11 +48,42 @@ const createCard = (card) => `
 
 function renderCards(targetId) {
   const target = document.getElementById(targetId);
-  const doubled = [...cardsData, ...cardsData];
-  doubled.forEach(card =>
-    target.insertAdjacentHTML("beforeend", createCard(card))
-  );
+  target.innerHTML = "";
+
+  // Triplicamos para loop infinito
+  const looped = [...cardsData, ...cardsData, ...cardsData];
+
+  looped.forEach(card => {
+    target.insertAdjacentHTML("beforeend", createCard(card));
+  });
+
+  // Esperar a que renderice
+  requestAnimationFrame(() => {
+    const cardWidth = target.children[0].offsetWidth;
+    target.scrollLeft = cardWidth * cardsData.length;
+  });
+
+  startInfiniteScroll(target);
+}
+
+function startInfiniteScroll(container) {
+  let speed = 0.5;
+
+  function animate() {
+    container.scrollLeft += speed;
+
+    const cardWidth = container.children[0].offsetWidth;
+    const singleSetWidth = cardWidth * cardsData.length;
+
+    // Si llega al final del tercer bloque → vuelve al centro
+    if (container.scrollLeft >= singleSetWidth * 2) {
+      container.scrollLeft = singleSetWidth;
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
 }
 
 renderCards("row1");
-renderCards("row2");
