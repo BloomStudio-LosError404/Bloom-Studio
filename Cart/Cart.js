@@ -145,24 +145,45 @@ function aplicarCupon() {
 const cuentaCarritoElement = document.getElementById("shopping_cart");
 
 function actualizarNumeroCarrito() {
-    const memoria = JSON.parse(localStorage.getItem("Articulos")) || [];
-    const cuenta = memoria.reduce((acum, current) => acum + current.cantidad, 0);
-    cuentaCarritoElement.innerText = cuenta;
-}
-
-
-
-
-
-function restarAlCarrito(producto){
-    const memoria =JSON.parse(localStorage.getItem("Articulos"));
-    const indiceProducto = memoria.finIndex(item => item.id === producto.id);
-    if(memoria(indiceProducto).cantidad === 1){
-        memoria.splice(indiceProducto,1);
-    } else {
-        memoria[indiceProducto].cantidad--;
+    const cuentaCarritoElement = document.getElementById("cuenta-carrito");
+    if (cuentaCarritoElement) {
+        const memoria = JSON.parse(localStorage.getItem("Articulos")) || [];
+        const cuenta = memoria.reduce((acum, current) => acum + current.cantidad, 0);
+        cuentaCarritoElement.innerText = cuenta;
     }
-        localStorage.setItem("Articulos",JSON.stringify(memoria));
- 
-
 }
+
+
+
+function agregarAlCarrito(producto) {
+    let memoria = JSON.parse(localStorage.getItem("Articulos")) || [];
+    const indiceProducto = memoria.findIndex(item => item.id === producto.id);
+
+    if (indiceProducto === -1) {
+        memoria.push({ ...producto, cantidad: 1 });
+    } else {
+        memoria[indiceProducto].cantidad++;
+    }
+    localStorage.setItem("Articulos", JSON.stringify(memoria));
+}
+
+function restarAlCarrito(producto) {
+    let memoria = JSON.parse(localStorage.getItem("Articulos")) || [];
+    const indiceProducto = memoria.findIndex(item => item.id === producto.id);
+
+    if (indiceProducto !== -1) {
+        if (memoria[indiceProducto].cantidad > 1) {
+            memoria[indiceProducto].cantidad--;
+        } else {
+            // Elimina el producto si la cantidad llega a 0
+            memoria.splice(indiceProducto, 1);
+        }
+    }
+    localStorage.setItem("Articulos", JSON.stringify(memoria));
+}
+
+// Agrega esto al final de tu archivo junto a las otras llamadas
+guardarCupones(); 
+crearTarjetasProductosCarrito();
+actualizarTotales();
+actualizarNumeroCarrito();
