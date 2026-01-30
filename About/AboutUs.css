@@ -1,0 +1,549 @@
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap");
+
+html, body {
+  font-family: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+*, *::before, *::after {
+  font-family: inherit;
+}
+
+*{
+  overflow-x: none;
+}
+body {
+  background-color: #F9F7FF;
+  margin: 0;
+}
+
+/* Sobre nosotros */
+.titulos-sobre-nosotros{
+    background:  linear-gradient(90deg, #FFCAB3, #C2B1E5);  ;
+    padding: 1rem;
+}
+.sobre-nosotros-parrafo{
+  font-weight: bold;
+  font-size: 3.5rem;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Nuestra tienda */
+/* CONTENEDOR PRINCIPAL */
+.sobre-nosotros {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+
+  max-width: 100%;
+  padding: 0 5%;
+  padding-right: 5%;
+  margin: 3rem 0;
+
+  align-items: start; 
+}
+
+/* BLOQUE IMAGEN */
+.bloque-imagen {
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.bloque-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* BLOQUE TEXTO */
+.bloque-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 0.3rem; /* micro-ajuste visual */
+}
+
+.nuestra-tienda-titulo {
+  font-size: 2.1rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.bloque-texto p {
+  text-align: justify;
+  line-height: 1.6;
+  color: #444;
+  margin: 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .sobre-nosotros {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .bloque-imagen {
+    aspect-ratio: 16 / 9;
+  }
+
+  .nuestra-tienda-titulo {
+    text-align: center;
+  }
+}
+
+
+
+/* ¿Por qué nosotros? */
+.why-us {
+  background: linear-gradient(90deg, #ffd1b8, #cbb9f3);
+  padding: 1rem 0;
+  position: relative;
+  overflow: visible;
+}
+
+.why-img {
+  position: absolute;
+  right: 5%;
+  bottom: 0;   /* hace que “salga” del fondo */
+  height: 170px;
+  z-index: 20;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .why-img {
+    position: static;   /* vuelve normal en móvil */
+    margin-top: 30px;
+    height: 220px;
+  }
+}
+
+/* Misión */
+/* ====== MISIÓN ====== */
+
+.about-mission {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;   /* espacio arriba */
+  padding: 0 5%;      /* 5% a los lados */
+}
+
+.about-mission__container {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  width: 100%;
+}
+
+/* TEXTO */
+.about-mission__text {
+  flex: 1;
+}
+
+.about-mission__text h2 {
+  font-size: 2.1rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+
+.about-mission__text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* IMAGEN */
+.about-mission__image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.about-mission__image img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .about-mission__container,
+  .vision__container {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+
+/* ====== VISIÓN ====== */
+
+.vision {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2% 4%;
+}
+
+.vision__container {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  width: 100%;
+}
+
+/* TEXTO */
+.vision__content {
+  flex: 1;
+}
+
+.vision__content h2 {
+    font-size: 2.1rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.vision__content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* IMAGEN */
+.vision__image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.vision__image img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .about-mission__container,
+  .vision__container {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* Carousel */
+
+/* Diferenciadores */
+.different, .faq-section {
+  background: linear-gradient(90deg, #FFCAB3, #C2B1E5);
+  padding: 20px 0;
+  text-align: justify;
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+.icon {
+  width: 50%;
+  height: auto;
+}
+
+.about-diff-p{
+  text-align: justify;
+  margin: 1.5rem;
+}
+
+.different-title{
+  margin: 1rem;
+}
+
+.img-about-different{
+  width: 50%;
+  padding: 2rem;
+}
+
+.about-different-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* FAQ */
+.faq-section {
+  background: #f7f4fc;
+  padding: 100px 0;
+}
+
+/* CONTENEDOR DE IMÁGENES */
+.faq-images {
+  position: relative;
+  width: 420px;
+  max-width: 100%;
+}
+
+.img-back {
+  width: 100%;
+  border-radius: 16px;
+  display: block;
+}
+
+.img-front {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  z-index: 2;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* FAQ */
+.faq-images {
+  position: relative;
+  width: 420px;
+  max-width: 100%;
+  display: flex;
+  justify-content: right;
+  align-items: right
+}
+
+.img-back {
+  width: 80%;
+  border-radius: 18px;
+}
+
+.img-front {
+  position: absolute;
+  bottom: -40px;
+  right: 50%;
+  transform: translateX(-80%);
+  width: 75%;
+  z-index: 2;
+  box-shadow: 0 20px 35px rgba(0,0,0,.15);
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .faq-title {
+    text-align: center;
+  }
+
+  .faq-images {
+    margin-top: 40px;
+    max-width: 300px;
+  }
+}
+
+main .container{
+  padding: 1.5rem;
+}
+
+
+/* ===== TEAM CAROUSEL ===== */
+
+/* CONTENEDOR */
+.teamCarousel {
+  max-width: 1400px;
+  margin: 50px auto;
+  padding: 32px 5%;
+}
+
+/* HEADER */
+.teamCarouselHeader {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.teamCarouselTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+/* LAYOUT */
+.teamCarouselLayout {
+  display: grid;
+  grid-template-columns: 56px 1fr 56px;
+  align-items: center;
+  gap: 24px;
+}
+
+/* RAIL (DESKTOP: 3 CARDS) */
+.teamCarouselRail {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+/* BOTONES */
+.teamBtn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,.15);
+  background: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.teamBtn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+
+/* TARJETAS */
+.teamCard {
+  height: 360px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  perspective: 1200px;
+  transition: transform .45s ease, opacity .45s ease;
+}
+
+.teamCard.center {
+  height: 420px;
+  transform: scale(1.02);
+  opacity: 1;
+  z-index: 2;
+}
+
+.teamCard.side {
+  transform: scale(0.94);
+  opacity: 0.6;
+}
+
+/* FLIP */
+.teamCardInner {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  transform-style: preserve-3d;
+  transition:
+    transform .6s cubic-bezier(.4,.2,.2,1),
+    box-shadow .6s ease;
+  box-shadow: 0 14px 34px rgba(0,0,0,.18);
+}
+
+.teamCardInner.isFlipped {
+  transform: rotateY(180deg) scale(1.03);
+  box-shadow: 0 26px 60px rgba(0,0,0,.28);
+}
+
+/* CARAS */
+.teamFace {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  backface-visibility: hidden;
+  background: #fff;
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.teamBack {
+  transform: rotateY(180deg);
+  justify-content: center;
+}
+
+/* FOTO */
+.teamPhotoWrap {
+  width: 100%;
+  height: 220px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.teamPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* TEXTO */
+.teamName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.teamRole {
+  font-size: 0.95rem;
+  opacity: 0.7;
+}
+
+.teamHint {
+  margin-top: auto;
+  font-size: 0.8rem;
+  opacity: 0.5;
+}
+
+/* CONTACTO */
+.teamContact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+/* ===== TABLET (2 TARJETAS) ===== */
+@media (max-width: 900px) {
+  .teamCarouselRail {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .teamCard.center {
+    height: 380px;
+    transform: scale(1);
+  }
+}
+
+/* ===== MÓVIL (1 TARJETA) ===== */
+@media (max-width: 600px) {
+  .teamCarouselLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .teamBtn {
+    display: none;
+  }
+
+  .teamCarouselRail {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .teamCard,
+  .teamCard.center {
+    height: 380px;
+    width: 100%;
+    max-width: 320px;   /* 🔑 tarjeta centrada */
+  }
+}
+
+
+#cuenta-carrito{
+  background-color: black ;
+  border-radius: 100%;
+  display: inline-block;
+  width: 20px;
+  line-height: 20px;
+  aspect-ratio: 1;
+  text-align: center;
+  position: absolute;
+  color: white;
+  font-size: 12px;
+}
