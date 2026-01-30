@@ -20,3 +20,4 @@ window.initHeader = function initHeader() {
 document.addEventListener("DOMContentLoaded", () => {
   window.initHeader?.();
 });
+
