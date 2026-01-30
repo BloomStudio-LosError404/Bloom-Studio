@@ -5,34 +5,70 @@ let flipTimeout = null;
 const intervalMs = 10000;
 
 const developers = [
-  { name:"Ayadett Díaz", role:"Product Owner / Full Stack", photo:"../src/team/DEV3.jpeg",
-    contact:{ email:"diazayadett@gmail.com", phone:"+52 55 21549832",
-      linkedin:"https://www.linkedin.com/in/ananil-ayadett-diaz/",
-      github:"https://github.com/diazayadett-byte"} },
-  { name:"Angel Papaqui", role:"Full Stack Developer", photo:"../src/team/DEV4.jpeg",
-    contact:{ email:"angeldavidpapaqui@gmail.com", phone:"+52 55 0000 0002",
-      linkedin:"https://www.linkedin.com/in/angel-papaqui/",
-      github:"https://github.com/angel-papaqui"} },
-  { name:"Edgar Saltillo", role:"Scrum Master", photo:"../src/team/DEV7.jpeg",
-    contact:{ email:"edsaltillo@gmail.com", phone:"+52 55 73743966",
-      linkedin:"https://www.linkedin.com/in/edgar-saltillo-ramirez/",
-      github:"https://github.com/Ed-Sal1"} },
-  { name:"Fátima Orozco", role:"Full Stack Developer", photo:"../src/team/DEV2.jpeg",
-    contact:{ email:"dev4@correo.com", phone:"+52 55 0000 0004",
-      linkedin:"https://www.linkedin.com/in/f%C3%A1timaorozcodami%C3%A1n/",
-      github:"https://github.com/fatiorozd-cpu"} },
-  { name:"Hector Aguero", role:"Full Stack Developer", photo:"../src/team/DEV5.jpeg",
-    contact:{ email:"destoreals@gmail.com", phone:"+52 55 0000 0005",
-      linkedin:"https://www.linkedin.com/in/hectormagdaleno/",
-      github:"https://github.com/Estorealsuwu"} },
-  { name:"Nayeli Morales", role:"Full Stack Developer", photo:"../src/team/DEV6.jpeg",
-    contact:{ email:"moralesmedinanayeli@gmail.com", phone:"+52 55 0000 0006",
-      linkedin:"https://www.linkedin.com/in/nayeli-morales-desarrollador-full-stack/",
-      github:"https://github.com/Naye2008"} },
-  { name:"Sergio Acevedo", role:"Full Stack Developer", photo:"../src/team/DEV1.jpeg",
-    contact:{ email:"sergioarmandoacevedo@gmail.com", phone:"+52 55 0000 0007",
-      linkedin:"https://www.linkedin.com/in/saac21/",
-      github:"https://github.com/sergioac-cloud"} }
+  {
+    name: "Ayadett Díaz", role: "Product Owner / Full Stack", photo: "../src/team/DEV3.jpeg",
+    contact: {
+      email: "diazayadett@gmail.com", phone: "+52 55 21549832",
+      linkedin: "https://www.linkedin.com/in/ananil-ayadett-diaz/",
+      github: "https://github.com/diazayadett-byte"
+    }
+  },
+  {
+    name: "Angel Papaqui", role: "Full Stack Developer", photo: "../src/team/DEV4.jpeg",
+    contact: {
+      email: "angeldavidpapaqui@gmail.com", phone: "+52 55 0000 0002",
+      linkedin: "https://www.linkedin.com/in/angel-papaqui/",
+      github: "https://github.com/angel-papaqui"
+    }
+  },
+  {
+    name: "Edgar Saltillo", role: "Scrum Master", photo: "../src/team/DEV7.jpeg",
+    contact: {
+      email: "edsaltillo@gmail.com", phone: "+52 55 73743966",
+      linkedin: "https://www.linkedin.com/in/edgar-saltillo-ramirez/",
+      github: "https://github.com/Ed-Sal1"
+    }
+  },
+  {
+    name: "Fátima Orozco", role: "Full Stack Developer", photo: "../src/team/DEV2.jpeg",
+    contact: {
+      email: "dev4@correo.com", phone: "+52 55 0000 0004",
+      linkedin: "https://www.linkedin.com/in/f%C3%A1timaorozcodami%C3%A1n/",
+      github: "https://github.com/fatiorozd-cpu"
+    }
+  },
+  {
+    name: "Hector Aguero", role: "Full Stack Developer", photo: "../src/team/DEV5.jpeg",
+    contact: {
+      email: "destoreals@gmail.com", phone: "+52 55 0000 0005",
+      linkedin: "https://www.linkedin.com/in/hectormagdaleno/",
+      github: "https://github.com/Estorealsuwu"
+    }
+  },
+  {
+    name: "Nayeli Morales", role: "Full Stack Developer", photo: "../src/team/DEV6.jpeg",
+    contact: {
+      email: "moralesmedinanayeli@gmail.com", phone: "+52 55 0000 0006",
+      linkedin: "https://www.linkedin.com/in/nayeli-morales-desarrollador-full-stack/",
+      github: "https://github.com/Naye2008"
+    }
+  },
+  {
+    name: "Jonathan Caixba", role: "Full Stack Developer", photo: "../src/team/DEV8.jpeg",
+    contact: {
+      email: "caixbajonathanfm@gmail.com", phone: "+52 961 337 8167",
+      linkedin: "https://www.linkedin.com/in/jonathan-caixba/",
+      github: "https://github.com/JonathanCaixba"
+    }
+  },
+  {
+    name: "Angel Bracamontes", role: "Full Stack Developer", photo: "../src/team/DEV9.jpeg",
+    contact: {
+      email: "", phone: "+52 961 337 8167",
+      linkedin: "https://www.linkedin.com/in/arturo-bracamontes/",
+      github: "https://github.com/Nocobuto"
+    }
+  }
 ];
 
 const rail = document.getElementById("carouselRail");
