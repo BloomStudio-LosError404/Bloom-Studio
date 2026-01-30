@@ -19,7 +19,7 @@ body {
 
 /* TÍTULO */
 .caja-degradado {
-  background: linear-gradient(to right, #c2b1e5, #ffcab3);
+  background: linear-gradient(to right, #ffcab3, #c2b1e5);
   text-align: center;
   padding: 60px 20px;
   font-size: 2.5rem;
