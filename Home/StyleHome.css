@@ -6,6 +6,7 @@ html, body {
   padding: 0;
   box-sizing: border-box;
   font-family: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  overflow-x: hidden;
 }
 *, *::before, *::after {
   box-sizing: border-box;
@@ -43,25 +44,25 @@ html, body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 120px;
+  gap: 160px;
 }
 
 /* TEXTO */
 .hero-subtitle {
-  font-size: 14px;
+  font-size: 17px;
   letter-spacing: 1px;
-  color: #444;
+  color: #000;
 }
 
 .hero-text h1 {
-  font-size: 3.4rem;
+  font-size: 3.0rem;
   margin: 15px 0;
   color: #000;
 }
 
 .hero-text p {
-  font-size: 1.1rem;
-  color: #333;
+  font-size: 1.3rem;
+  color: #000;
   max-width: 420px;
   margin-bottom: 30px;
 }
@@ -543,7 +544,7 @@ width: 100%;
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.80),
     rgba(0, 0, 0, 0.1)
   );
 }
