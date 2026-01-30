@@ -2,7 +2,7 @@
 const contenedorTarjetas = document.getElementById("product-items-container");
 const unidadesElement = document.getElementById("unidades");
 const precioElement = document.getElementById("precio");
-const envioElement = document.getElementById("envio");
+const descuentoElement = document.getElementById("descuento");
 const carritoVacioElement = document.getElementById("carrito-vacio");
 const totalesElement = document.getElementById("totales");
 const vaciarCarritoElement = document.getElementById("vaciar");
@@ -126,15 +126,6 @@ if(botonCupon) botonCupon.addEventListener("click", aplicarCupon);
 
 guardarCupones();
 actualizarInterfazCompleta();
-
-
-
-
-
-
-
-
-
 
 
 
