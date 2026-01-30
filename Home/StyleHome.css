@@ -1,14 +1,16 @@
-* {
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap");
+
+
+html, body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
- font-family: "Figtree", sans-serif;;
+  font-family: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
-html, body {
-  overflow-x: hidden;
-  max-width: 100%;
+*, *::before, *::after {
+  box-sizing: border-box;
+  font-family: inherit;
 }
-
 /* Hero */
 
 .hero {
@@ -946,3 +948,5 @@ width: 100%;
     transform: translate(-14px, -14px);
   }
 }
+
+
