@@ -1,5 +1,3 @@
-
-
 export const loadPartial = async (mountId, url) => {
   const mountPoint = document.getElementById(mountId);
   if (!mountPoint) return;
@@ -16,7 +14,12 @@ export const loadPartial = async (mountId, url) => {
 
 export const loadLayout = async () => {
   await Promise.all([
-    loadPartial("appHeader", "../Layoaut/Header/index.html"),
-    loadPartial("appFooter", "../Layoaut/Footer/index.html")
+    loadPartial("appHeader", "../Layout/Header/index.html"),
+    loadPartial("appFooter", "../Layout/Footer/index.html")
   ]);
+
+  
+  if (typeof window.initHeader === "function") {
+    window.initHeader();
+  }
 };

@@ -1,23 +1,23 @@
 const faqs = [
   {
-    question: "How to use this component?",
+    question: "¿Cómo personalizo un producto?",
     answer:
-      "To use this component, you need to import it in your project and use it in your JSX or HTML."
+      "Selecciona el producto que quieras, elige colores, textos o imágenes, y ajusta cada detalle hasta que quede a tu gusto. Luego agrégalo al carrito y listo."
   },
   {
-    question: "Are there any other components available?",
+    question: "¿Puedo enviar un diseño como regalo?",
     answer:
-      "Yes, there are many other components available in this library."
+      "¡Claro! Puedes personalizar el producto y enviarlo directamente a la dirección que desees, perfecto para regalos únicos y especiales."
   },
   {
-    question: "Are components responsive?",
+    question: "¿Qué tipos de productos puedo personalizar?",
     answer:
-      "Yes, all components are fully responsive and adapt to different screen sizes."
+      "Tenemos playeras, tazas, cachuchas y más. Cada producto puede ser adaptado a tu estilo con colores, textos y diseños exclusivos."
   },
   {
-    question: "Can I customize the components?",
+    question: "¿Los productos personalizados tardan más en llegar?",
     answer:
-      "Yes, you can customize them easily using CSS or configuration options."
+      "Sí, el tiempo de entrega puede ser un poco mayor debido al proceso de personalización, pero garantizamos que cada detalle sea perfecto."
   }
 ];
 

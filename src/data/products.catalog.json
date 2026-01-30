@@ -8,18 +8,18 @@
   "products": [
     {
       "id": "p-0001",
-      "name": "Playera duo",
-      "description": "Celebra tu conexión con este set de playeras diseñado para parejas que aman compartir su estilo.",
-      "price": 450,
+      "name": "Duo en Tom & Jerry",
+      "description": "¡Lleva la rivalidad más icónica del mundo a tu armario con este increíble par de sudaderas!",
+      "price": 899,
       "rating": 4.8,
       "reviews": 20,
-      "category": "playeras",
-      "season": "base",
+      "category": "sudadera",
+      "season": "temporada",
       "colors": ["otros"],
       "sizes": ["S", "M", "L"],
       "tags": ["personalizable"],
       "image": {
-        "src": "../src/images/products/playeras/playera-001.png",
+        "src": "../src/images/products/temporada-14-febrero/temporada-009.JPG",
         "alt": "Imagen referencial del producto"
       }
     },
