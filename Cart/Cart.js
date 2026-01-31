@@ -40,15 +40,15 @@ function actualizarTotales() {
 }
 
 function revisarMensajeVacio() {
-    const productos = JSON.parse(localStorage.getItem("Articulos")) || [];
-    if(carritoVacioElement) {
+       const productos = JSON.parse(localStorage.getItem("Articulos")) || [];
+    if (carritoVacioElement) {
         carritoVacioElement.style.display = (productos.length > 0) ? "none" : "block";
     }
 }
 
 // 3. RENDERIZADO DE COMPONENTES
 function crearTarjetasProductosCarrito() {
-    if(!contenedorTarjetas) return;
+    if (!contenedorTarjetas) return;
     contenedorTarjetas.innerHTML = "";
     const productos = JSON.parse(localStorage.getItem("Articulos")) || [];
 
@@ -57,7 +57,7 @@ function crearTarjetasProductosCarrito() {
         nuevoProducto.classList = "tarjeta-producto";
         nuevoProducto.innerHTML = `
             <img src="../src/images/products/temporada-14-febrero/temporada-009.JPG" alt="${producto.nombre}">
-            <h3>${producto.nombre}</h3>
+            <h2>${producto.nombre}</h2>
             <p>$${producto.precio}</p>
             <div>
                 <button class="btn-restar">-</button>
@@ -69,8 +69,8 @@ function crearTarjetasProductosCarrito() {
 
         // Usamos las funciones globales del Header
         nuevoProducto.querySelector(".btn-sumar").addEventListener("click", () => {
-            agregarAlCarrito(producto); 
-            actualizarInterfazCompleta(); 
+            agregarAlCarrito(producto);
+            actualizarInterfazCompleta();
         });
 
         nuevoProducto.querySelector(".btn-restar").addEventListener("click", () => {
@@ -84,8 +84,8 @@ function crearTarjetasProductosCarrito() {
 function vaciarCarrito() {
     localStorage.removeItem("Articulos");
     descuentoAplicado = 0;
-    if(botonCupon) botonCupon.disabled = false;
-    if(inputCupon) {
+    if (botonCupon) botonCupon.disabled = false;
+    if (inputCupon) {
         inputCupon.disabled = false;
         inputCupon.value = "";
     }
@@ -101,7 +101,7 @@ function aplicarCupon() {
         alert("Cupón inválido");
         return;
     }
-    
+
     const productos = JSON.parse(localStorage.getItem("Articulos")) || [];
     const totalCarrito = productos.reduce((acc, p) => acc + (p.precio * p.cantidad), 0);
 
@@ -121,8 +121,8 @@ function guardarCupones() {
 }
 
 // 5. EVENTOS E INICIALIZACIÓN
-if(vaciarCarritoElement) vaciarCarritoElement.addEventListener("click", vaciarCarrito);
-if(botonCupon) botonCupon.addEventListener("click", aplicarCupon);
+if (vaciarCarritoElement) vaciarCarritoElement.addEventListener("click", vaciarCarrito);
+if (botonCupon) botonCupon.addEventListener("click", aplicarCupon);
 
 guardarCupones();
 actualizarInterfazCompleta();
