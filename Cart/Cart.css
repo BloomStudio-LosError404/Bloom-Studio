@@ -31,7 +31,7 @@ body {
 }
 
 /* Primera parte: carrito  */
-.carrito {
+.carrito{
     display: flex;
     gap: 20px;
     align-items: flex-start;
@@ -110,7 +110,7 @@ main a:hover {
     .tarjeta-producto {
         flex-direction: row;
         justify-content: space-between;
-        
+
         text-align: left;
         padding: 15px 30px;
     }
@@ -120,7 +120,7 @@ main a:hover {
         height: 80px;
     }
 
-    
+
     .tarjeta-producto h2,
     .tarjeta-producto p {
         margin: 0;
@@ -130,7 +130,7 @@ main a:hover {
 
     }
 
-    
+
 }
 
 #carrito-vacio {
@@ -181,10 +181,14 @@ main a:hover {
 /* ==== Seguna parte=====*/
 
 .carousel-container {
-    position: relative;
-    width: 85%;
+    position: relative; 
+    width: 85%; 
     margin: auto;
+    display:flex;
+    align-items: center;  
 }
+
+
 
 .carousel-track {
     display: flex;
@@ -264,6 +268,24 @@ main a:hover {
     font-weight: 500;
 }
 
+.prev-btn,
+.next-btn {
+    
+    position: absolute; 
+    top: 50%;           
+    transform: translateY(-50%); 
+    z-index: 10;        
+}
+
+.prev-btn {
+    left: -20px; 
+}
+
+.next-btn {
+    right: -20px; 
+}
+
+
 /* Estilo base para ambos botones */
 .prev-btn,
 .next-btn,
@@ -280,15 +302,21 @@ main a:hover {
     transition: transform .2s ease, box-shadow .2s ease;
 }
 
+
 .prev-btn,
 .next-btn:hover {
     transform: scale(1.1);
     box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
 }
 
+.carousel-track-container {
+    overflow: hidden;    /* Esencial para que no haya scroll horizontal raro */
+    width: 100%;
+}
+
 /* Media Query para responsividad en celulares y tablets */
 @media (max-width: 768px) {
-    .carrito {
+    .carrito, .detalles-pago {
         flex-direction: column;
     }
 
