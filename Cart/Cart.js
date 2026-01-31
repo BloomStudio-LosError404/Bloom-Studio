@@ -29,15 +29,16 @@ function actualizarTotales() {
     let precio = 0;
 
     productos.forEach(producto => {
-        unidades += producto.cantidad;
+        unidades += producto.precio  * producto.cantidad;
         precio += producto.precio * producto.cantidad;
     });
+    actualizarDescuento(precio);
+    const precioFinal = precio - (precio * descuentoAplicado);
 
-    precio = precio - (precio * descuentoAplicado);
-    if (unidadesElement) unidadesElement.innerText = unidades;
-    if (precioElement) precioElement.innerText = `$${precio}`;
-    if (envioElement) envioElement.innerText = `$${envio}`;
+    if (unidadesElement) unidadesElement.innerText = `$${unidades.toFixed(2)}`;
+    if (precioElement) precioElement.innerText = `$${precioFinal.toFixed(2)}`;
 }
+
 
 function revisarMensajeVacio() {
     const productos = JSON.parse(localStorage.getItem("Articulos")) || [];
@@ -98,21 +99,38 @@ function aplicarCupon() {
     const cupon = cupones.find(c => c.codigo === codigoIngresado);
 
     if (!cupon || !cupon.activo) {
-        alert("Cupón inválido");
-        return;
+         Swal.fire({
+                icon: "error",
+                title: "Cupón inválido",
+                text: "Ingresa un cupón válido"
+            });
+            return;
     }
     
     const productos = JSON.parse(localStorage.getItem("Articulos")) || [];
     const totalCarrito = productos.reduce((acc, p) => acc + (p.precio * p.cantidad), 0);
 
     if (totalCarrito < cupon.minimoCompra) {
-        alert(`Mínimo $${cupon.minimoCompra}`);
-        return;
-    }
+        Swal.fire({
+                icon: "error",
+                title: "El minimo de compra debe ser de $1500",
+            });
+            return;
+    } else{
+        Swal.fire({
+                icon: "success",
+                title: "¡Cupón aceptado!",
+            });}
     descuentoAplicado = cupon.descuento;
     botonCupon.disabled = true;
     inputCupon.disabled = true;
     actualizarTotales();
+}
+function actualizarDescuento(precioSinDescuento) {
+    if (!descuentoElement) return;
+
+    const montoDescuento = precioSinDescuento * descuentoAplicado;
+    descuentoElement.innerText = `$${montoDescuento.toFixed(2)}`;
 }
 
 function guardarCupones() {
