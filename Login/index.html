@@ -13,47 +13,65 @@
     <title>Bloom Studio | Login</title>
     <link rel="stylesheet" href="./index.css">
     <link rel="stylesheet" href="../Layout/Header/style.css">
-     <link rel="stylesheet" href="./login.css">
 
 </head>
 
 <body>
 
     <div id="appHeader"></div>
+    
     <main class="login-page">
+    <div class="login-card-container">
+        <div class="card-inner" id="card-inner">
+            
+            <div class="card-face card-front">
+                <h1 class="login-title">Login</h1>
+                <form id="login-form" class="login-form">
+                    <label>Email</label>
+                    <input type="email" id="email-login" class="form-control" placeholder="Ingresa tu correo" required>
 
-        <div class="login-card">
+                    <label>Password</label>
+                    <input type="password" id="pass-login" class="form-control" placeholder="Ingresa tu contraseña" required>
+                    
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                    <button type="submit" class="login-button w-100">Iniciar sesión</button>
 
-            <h1 class="login-title">Login</h1>
-            <form class="login-form" novalidate>
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Ingresa tu correo" required>
+                    <p class="create-account">
+                        ¿No tienes cuenta? <a href="javascript:void(0)" id="btn-to-register">Crear cuenta</a>
+                    </p>
+                </form>
+            </div>
 
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
-                <a href="#" class="forgot-password">Forgot password?</a>
+            <div class="card-face card-back">
+                <h1 class="login-title">Registro</h1>
+                <form id="register-form" class="login-form">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="name-reg" class="form-control" placeholder="Tu nombre" required>
 
-                <button type="submit" class="login-button">
-                    Iniciar sesión
-                </button>
+                    <label>Email</label>
+                    <input type="email" id="email-reg" class="form-control" placeholder="correo@ejemplo.com" required>
 
-                <p class="create-account">
-                    <a href="#">Crear cuenta</a>
-                </p>
+                    <label>Password</label>
+                    <input type="password" id="pass-reg" class="form-control" placeholder="Crea una contraseña" required>
 
-            </form>
+                    <button type="submit" class="login-button w-100">Registrarme</button>
 
+                    <p class="create-account">
+                        ¿Ya tienes cuenta? <a href="javascript:void(0)" id="btn-to-login">Inicia sesión</a>
+                    </p>
+                </form>
+            </div>
 
         </div>
-
-
-    </main>
+    </div>
+</main>
 
     <div id="appFooter"></div>
 
     <script src="../src/ScriptHeader/script.js"></script>
     <script type="module" src="../src/ScriptHeader/App.js"></script>
     <script type="module" src="../Login/js/mainLogin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="../Login/js/mainLoginUser.js"></script>
 
 </body>
