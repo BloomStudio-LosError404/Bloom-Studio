@@ -44,16 +44,24 @@ export const createStore = ({ products = [] }) => {
     renderStore();
   };
 
-  const goToProduct = (productId) => {
+ // Busca esta función en tu storeView.js y reemplázala:
+const goToProduct = (productId) => {
     if (!ENABLE_EXTERNAL_PRODUCT_PAGE) return;
-
-    // Link vacío por ahora (placeholder). Evitamos recargar.
-    // Cuando exista ProductDetail real, cambiar esto.
     if (!PRODUCT_DETAIL_URL) return;
 
-    window.location.href = `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(productId)}`;
-  };
+    // Buscamos el objeto completo del producto dentro del estado actual
+    const selectedProduct = state.products.find(p => p.id === productId || p.id == productId);
 
+    if (selectedProduct) {
+        // Guardamos el producto individual
+        localStorage.setItem("selectedProduct", JSON.stringify(selectedProduct));
+        // Guardamos toda la lista para poder mostrar "Productos relacionados" abajo
+        localStorage.setItem("allProducts", JSON.stringify(state.products));
+        
+        // Redirigimos
+        window.location.href = `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(productId)}`;
+    }
+};
   const applyFilters = (list) => {
     let result = list;
 
