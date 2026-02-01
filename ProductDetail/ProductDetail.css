@@ -141,7 +141,23 @@ main .container {
     text-align: center;
 }
 
-.btn-secondary { background: var(--accent-orange); color: #333; }
+.btn-secondary { 
+    background: #4b3a6a; 
+    color: white; 
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.btn-secondary:hover {
+    opacity: 0.9;
+    background: #5a4680; /* Un tono ligeramente más claro al pasar el mouse */
+}
 .btn-primary { background: var(--dark-blue); color: white; }
 .btn-full { 
     grid-column: span 2; 
@@ -218,6 +234,27 @@ main .container {
     overflow: hidden; 
 }
 
+/* --- ESTADOS DE SELECCIÓN (NUEVO) --- */
+
+/* Cuando un círculo de color está seleccionado */
+.dot.selected {
+    border: 3px solid #4b3a6a !important; /* Borde morado grueso */
+    transform: scale(1.15);
+    box-shadow: 0 0 5px rgba(75, 58, 106, 0.3);
+}
+
+/* Cuando una talla (pill) está seleccionada */
+.pill.selected {
+    background-color: #4b3a6a !important; /* Fondo morado */
+    color: white !important;               /* Letras blancas */
+    border: 1px solid #4b3a6a;
+}
+
+/* Efecto hover para que el usuario sepa que son clickeables */
+.pill:hover, .dot:hover {
+    cursor: pointer;
+}
+
 .card-img img { 
     max-width: 90%; 
     max-height: 90%; 
@@ -273,5 +310,97 @@ main .container {
     .btn-full { grid-column: span 1; }
 }
 
+/* Estilo para resaltar la selección de talla y color */
+.dot.selected {
+    border: 3px solid #7a59a1; /* Un color que resalte */
+    transform: scale(1.2);
+}
 
+.pill.selected {
+    background-color: #7a59a1 !important;
+    color: white !important;
+    border-color: #7a59a1 !important;
+}
 
+#product-detail-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+.main-detail img {
+    max-width: 400px;
+    width: 100%;
+}
+.price {
+    font-size: 2rem;
+    color: #333;
+    font-weight: bold;
+}
+.related-card {
+    border: 1px solid #eee;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.related-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Cuando se selecciona un color */
+.dot.selected {
+  border: 2px solid #3483fa; /* Azul Mercado Libre */
+  transform: scale(1.2);
+}
+
+/* Cuando se selecciona una talla */
+.pill.selected {
+  background-color: #3483fa;
+  color: white;
+  border-color: #3483fa;
+}
+
+.dot {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+.pill {
+  padding: 8px 15px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.thumbnails {
+  display: flex;
+  flex-direction: column; /* Alineación vertical como en tu foto */
+  gap: 10px;
+}
+
+.thumbnails img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 12px; /* Bordes redondeados de la imagen */
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.thumbnails img:hover {
+  border-color: #3483fa; /* Efecto azul al pasar el mouse */
+}
+
+/* Contenedor de la imagen principal para que no se vea gigante */
+.main-image img {
+  border-radius: 15px;
+  max-width: 100%;
+}
