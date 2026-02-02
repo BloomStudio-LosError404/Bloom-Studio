@@ -22,16 +22,16 @@ body {
 
 /* TÍTULO */
 .caja-degradado {
-  background: linear-gradient(to right, #ffcab3, #c2b1e5);
-  text-align: center;
-  padding: 60px 20px;
-  font-size: 2.5rem;
-  font-weight: 600;
-  letter-spacing: 2px;
+    background: linear-gradient(to right, #ffcab3, #c2b1e5);
+    text-align: center;
+    padding: 60px 20px;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: 2px;
 }
 
 /* Primera parte: carrito  */
-.carrito {
+.carrito{
     display: flex;
     gap: 20px;
     align-items: flex-start;
@@ -62,46 +62,75 @@ main a:hover {
 
 }
 
-
-/* Encabezados de la tabla (usando Grid para alineación) */
-.encabezado {
-    display: grid;
-    /* Define 5 columnas con tamaños relativos */
-    grid-template-columns: 100px 100px 100px 100px 100px;
-    width: 100%;
-    justify-content: space-between;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-    gap: 15px;
-    align-items: center;
-    padding: 10px;
-}
-
-
-.encabezado.span {
-    flex: 1;
-    text-align: center;
-
-}
-
 .cart-container {
     width: 500px;
 
 }
 
+
+#product-items-container {
+    font-family: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
 .tarjeta-producto {
     display: flex;
-    gap: 20px;
+    flex-direction: column;
     align-items: center;
+    text-align: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    gap: 15px;
 }
 
 .tarjeta-producto img {
-    height: 100px;
-    aspect-ratio: 1.5;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
-.tarjeta-producto h3 {
-    width: 130px;
+/* Contenedor de botones +/- */
+.tarjeta-producto div {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #f8f9fa;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+@media (min-width: 768px) {
+    .tarjeta-producto {
+        flex-direction: row;
+        justify-content: space-between;
+
+        text-align: left;
+        padding: 15px 30px;
+    }
+
+    .tarjeta-producto img {
+        width: 80px;
+        height: 80px;
+    }
+
+
+    .tarjeta-producto h2,
+    .tarjeta-producto p {
+        margin: 0;
+        flex: 1;
+        padding-left: 20px;
+        font-size: 20px;
+
+    }
+
+
 }
 
 #carrito-vacio {
@@ -152,10 +181,14 @@ main a:hover {
 /* ==== Seguna parte=====*/
 
 .carousel-container {
-    position: relative;
-    width: 85%;
+    position: relative; 
+    width: 85%; 
     margin: auto;
+    display:flex;
+    align-items: center;  
 }
+
+
 
 .carousel-track {
     display: flex;
@@ -235,9 +268,29 @@ main a:hover {
     font-weight: 500;
 }
 
+.prev-btn,
+.next-btn {
+    
+    position: absolute; 
+    top: 50%;           
+    transform: translateY(-50%); 
+    z-index: 10;        
+}
+
+.prev-btn {
+    left: -20px; 
+}
+
+.next-btn {
+    right: -20px; 
+}
+
+
 /* Estilo base para ambos botones */
 .prev-btn,
-.next-btn, .btn-restar,.btn-sumar {
+.next-btn,
+.btn-restar,
+.btn-sumar {
 
     width: 48px;
     height: 48px;
@@ -249,15 +302,21 @@ main a:hover {
     transition: transform .2s ease, box-shadow .2s ease;
 }
 
+
 .prev-btn,
 .next-btn:hover {
     transform: scale(1.1);
     box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
 }
 
+.carousel-track-container {
+    overflow: hidden;    /* Esencial para que no haya scroll horizontal raro */
+    width: 100%;
+}
+
 /* Media Query para responsividad en celulares y tablets */
 @media (max-width: 768px) {
-    .carrito {
+    .carrito, .detalles-pago {
         flex-direction: column;
     }
 
