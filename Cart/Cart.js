@@ -1,7 +1,8 @@
+// 1. SELECTORES
 const contenedorTarjetas = document.getElementById("product-items-container");
 const unidadesElement = document.getElementById("unidades");
 const precioElement = document.getElementById("precio");
-const envioElement = document.getElementById("envio");
+const descuentoElement = document.getElementById("descuento");
 const carritoVacioElement = document.getElementById("carrito-vacio");
 const totalesElement = document.getElementById("totales");
 const vaciarCarritoElement = document.getElementById("vaciar");
@@ -11,179 +12,138 @@ const botonCupon = document.querySelector(".aplicar-cupon");
 const envio = 0;
 let descuentoAplicado = 0;
 
-function guardarCupones() {
-    const cupones = [
-        {
-            codigo: "BLOOM10",
-            descuento: 0.10,
-            activo: true,
-            minimoCompra: 1500
-        }
-        
-    ];
-     localStorage.setItem("Cupones", JSON.stringify(cupones));
-}
-
-
-function crearTarjetasProductosCarrito() {
-    contenedorTarjetas.innerHTML = "";
-    const productos = JSON.parse(localStorage.getItem("Articulos"));
-
-    if (productos && productos.length > 0) {
-        productos.forEach((producto) => {
-            const nuevoProducto = document.createElement("div");
-            nuevoProducto.classList = "tarjeta-producto";
-
-            nuevoProducto.innerHTML = `
-                <img src="../src/images/products/temporada-14-febrero/temporada-009.JPG" alt="${producto.nombre}">
-                <h3>${producto.nombre}</h3>
-                <p>$${producto.precio}</p>
-                <div>
-                    <button>-</button>
-                    <span class="cantidad">${producto.cantidad}</span>
-                    <button>+</button>
-                </div>
-            `;
-
-            contenedorTarjetas.appendChild(nuevoProducto);
-
-            nuevoProducto
-                .getElementsByTagName("button")[1]
-                .addEventListener("click", (e) => {
-                    agregarAlCarrito(producto);
-                    crearTarjetasProductosCarrito();
-                    actualizarTotales();
-                });
-
-            nuevoProducto
-                .getElementsByTagName("button")[0]
-                .addEventListener("click", (e) => {
-                    restarAlCarrito(producto);
-                    crearTarjetasProductosCarrito();
-                    actualizarTotales();
-                });
-        });
-    }
-
+// 2. FUNCIONES DE INTERFAZ LOCAL (Solo para esta página)
+function actualizarInterfazCompleta() {
+    crearTarjetasProductosCarrito();
+    actualizarTotales();
     revisarMensajeVacio();
+    // Llamamos a la función que está en el JS del Header
+    if (typeof actualizarNumeroCarrito === 'function') {
+        actualizarNumeroCarrito();
+    }
 }
-
-crearTarjetasProductosCarrito();
-actualizarTotales();
 
 function actualizarTotales() {
-    const productos = JSON.parse(localStorage.getItem("Articulos"));
+    const productos = JSON.parse(localStorage.getItem("Articulos")) || [];
     let unidades = 0;
     let precio = 0;
 
-    if (productos && productos.length > 0) {
-        productos.forEach(producto => {
-            unidades += producto.cantidad;
-            precio += producto.precio * producto.cantidad;
-        });
-    }
-    precio = precio - (precio * descuentoAplicado);
+    productos.forEach(producto => {
+        unidades += producto.precio  * producto.cantidad;
+        precio += producto.precio * producto.cantidad;
+    });
+    actualizarDescuento(precio);
+    const precioFinal = precio - (precio * descuentoAplicado);
 
-    unidadesElement.innerText = unidades;
-    precioElement.innerText = `$${precio}`;
-    envioElement.innerText = `$${envio}`;
+    if (unidadesElement) unidadesElement.innerText = `$${unidades.toFixed(2)}`;
+    if (precioElement) precioElement.innerText = `$${precioFinal.toFixed(2)}`;
 }
+
 
 function revisarMensajeVacio() {
-    const productos = JSON.parse(localStorage.getItem("Articulos"));
-    carritoVacioElement.style.display = (productos && productos.length > 0) ? "none" : "block";
+       const productos = JSON.parse(localStorage.getItem("Articulos")) || [];
+    if (carritoVacioElement) {
+        carritoVacioElement.style.display = (productos.length > 0) ? "none" : "block";
+    }
 }
 
-vaciarCarritoElement.addEventListener("click", vaciarCarrito);
+// 3. RENDERIZADO DE COMPONENTES
+function crearTarjetasProductosCarrito() {
+    if (!contenedorTarjetas) return;
+    contenedorTarjetas.innerHTML = "";
+    const productos = JSON.parse(localStorage.getItem("Articulos")) || [];
 
+    productos.forEach((producto) => {
+        const nuevoProducto = document.createElement("div");
+        nuevoProducto.classList = "tarjeta-producto";
+        nuevoProducto.innerHTML = `
+            <img src="../src/images/products/temporada-14-febrero/temporada-009.JPG" alt="${producto.nombre}">
+            <h2>${producto.nombre}</h2>
+            <p>$${producto.precio}</p>
+            <div>
+                <button class="btn-restar">-</button>
+                <span class="cantidad">${producto.cantidad}</span>
+                <button class="btn-sumar">+</button>
+            </div>
+        `;
+        contenedorTarjetas.appendChild(nuevoProducto);
+
+        // Usamos las funciones globales del Header
+        nuevoProducto.querySelector(".btn-sumar").addEventListener("click", () => {
+            agregarAlCarrito(producto);
+            actualizarInterfazCompleta();
+        });
+
+        nuevoProducto.querySelector(".btn-restar").addEventListener("click", () => {
+            restarAlCarrito(producto);
+            actualizarInterfazCompleta();
+        });
+    });
+}
+
+// 4. LÓGICA DE CUPONES Y VACIADO
 function vaciarCarrito() {
     localStorage.removeItem("Articulos");
     descuentoAplicado = 0;
-    botonCupon.disabled = false;
-    inputCupon.disabled = false;
-    inputCupon.value = "";
-    crearTarjetasProductosCarrito();
-    actualizarTotales();
-}
-botonCupon.addEventListener("click", aplicarCupon);
-
-function obtenerTotalCarrito() {
-    const productos = JSON.parse(localStorage.getItem("Articulos")) || [];
-    let total = 0;
-
-    productos.forEach(producto => {
-        total += producto.precio * producto.cantidad;
-    });
-
-    return total;
+    if (botonCupon) botonCupon.disabled = false;
+    if (inputCupon) {
+        inputCupon.disabled = false;
+        inputCupon.value = "";
+    }
+    actualizarInterfazCompleta();
 }
 
 function aplicarCupon() {
     const codigoIngresado = inputCupon.value.trim().toUpperCase();
     const cupones = JSON.parse(localStorage.getItem("Cupones")) || [];
-
-    if (!codigoIngresado) {
-        alert("Ingresa un cupón");
-        return;
-    }
     const cupon = cupones.find(c => c.codigo === codigoIngresado);
+
     if (!cupon || !cupon.activo) {
-        alert("Cupón inválido o desactivado");
-        return;
+         Swal.fire({
+                icon: "error",
+                title: "Cupón inválido",
+                text: "Ingresa un cupón válido"
+            });
+            return;
     }
-    const totalCarrito = obtenerTotalCarrito();
+
+    const productos = JSON.parse(localStorage.getItem("Articulos")) || [];
+    const totalCarrito = productos.reduce((acc, p) => acc + (p.precio * p.cantidad), 0);
+
     if (totalCarrito < cupon.minimoCompra) {
-        alert(`Compra mínima requerida: $${cupon.minimoCompra}`);
-        return;
-    }
+        Swal.fire({
+                icon: "error",
+                title: "El minimo de compra debe ser de $1500",
+            });
+            return;
+    } else{
+        Swal.fire({
+                icon: "success",
+                title: "¡Cupón aceptado!",
+            });}
     descuentoAplicado = cupon.descuento;
-    alert(`Cupón aplicado: ${cupon.descuento * 100}%`);
     botonCupon.disabled = true;
     inputCupon.disabled = true;
     actualizarTotales();
 }
-const cuentaCarritoElement = document.getElementById("shopping_cart");
+function actualizarDescuento(precioSinDescuento) {
+    if (!descuentoElement) return;
 
-function actualizarNumeroCarrito() {
-    const cuentaCarritoElement = document.getElementById("cuenta-carrito");
-    if (cuentaCarritoElement) {
-        const memoria = JSON.parse(localStorage.getItem("Articulos")) || [];
-        const cuenta = memoria.reduce((acum, current) => acum + current.cantidad, 0);
-        cuentaCarritoElement.innerText = cuenta;
-    }
+    const montoDescuento = precioSinDescuento * descuentoAplicado;
+    descuentoElement.innerText = `$${montoDescuento.toFixed(2)}`;
 }
 
-
-
-function agregarAlCarrito(producto) {
-    let memoria = JSON.parse(localStorage.getItem("Articulos")) || [];
-    const indiceProducto = memoria.findIndex(item => item.id === producto.id);
-
-    if (indiceProducto === -1) {
-        memoria.push({ ...producto, cantidad: 1 });
-    } else {
-        memoria[indiceProducto].cantidad++;
-    }
-    localStorage.setItem("Articulos", JSON.stringify(memoria));
+function guardarCupones() {
+    const cupones = [{ codigo: "BLOOM10", descuento: 0.10, activo: true, minimoCompra: 1500 }];
+    localStorage.setItem("Cupones", JSON.stringify(cupones));
 }
 
-function restarAlCarrito(producto) {
-    let memoria = JSON.parse(localStorage.getItem("Articulos")) || [];
-    const indiceProducto = memoria.findIndex(item => item.id === producto.id);
+// 5. EVENTOS E INICIALIZACIÓN
+if (vaciarCarritoElement) vaciarCarritoElement.addEventListener("click", vaciarCarrito);
+if (botonCupon) botonCupon.addEventListener("click", aplicarCupon);
 
-    if (indiceProducto !== -1) {
-        if (memoria[indiceProducto].cantidad > 1) {
-            memoria[indiceProducto].cantidad--;
-        } else {
-            // Elimina el producto si la cantidad llega a 0
-            memoria.splice(indiceProducto, 1);
-        }
-    }
-    localStorage.setItem("Articulos", JSON.stringify(memoria));
-}
+guardarCupones();
+actualizarInterfazCompleta();
 
-// Agrega esto al final de tu archivo junto a las otras llamadas
-guardarCupones(); 
-crearTarjetasProductosCarrito();
-actualizarTotales();
-actualizarNumeroCarrito();
+
+

@@ -16,7 +16,7 @@ body {
 
 /* TÍTULO */
 .caja-degradado {
-  background: linear-gradient(to right, #c2b1e5, #ffcab3);
+  background: linear-gradient(to right, #ffcab3, #c2b1e5);
   text-align: center;
   padding: 60px 20px;
   font-size: 2.5rem;
@@ -40,6 +40,7 @@ body {
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
+  cursor: pointer;
 }
 
 .tarjeta:hover {
@@ -51,6 +52,12 @@ body {
   height: 30px;
   margin: 10px 0;
 }
+.tarjeta-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 
 .color-1 {
   background-color: #ffd5c2;
@@ -89,27 +96,25 @@ body {
 /* Descripción */
 .descripcion-contacto {
   font-size: 20px;
-  color: rgb(9, 9, 9);
   line-height: 1.5;
 }
 
 .form-contac{
-  max-width: 520px;
-  background: #f7f6fb;
+  max-width: 650px;
+  background: #faf8ff;
   width: 60%;
   margin-left: auto;
   margin-right: 0;
-  padding: 40px 5%;
-
+  padding: 40px 40px;
   border-radius: 15px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .seccion-contacto {
-  padding: 10px 30px;
+  padding: 5px 5px;
 }
 
-/* FILAS */
+
 .form-row {
   display: flex;
   gap: 20px;
@@ -152,6 +157,7 @@ h2 {
 h3 {
   text-align: center;
   width: 100%;
+  padding: 10px;
   margin-bottom: 30px;
 
 }
