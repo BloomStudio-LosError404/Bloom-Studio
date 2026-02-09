@@ -274,4 +274,27 @@ main .container {
 }
 
 
-
+#product-detail-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+.main-detail img {
+    max-width: 400px;
+    width: 100%;
+}
+.price {
+    font-size: 2rem;
+    color: #333;
+    font-weight: bold;
+}
+.related-card {
+    border: 1px solid #eee;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.related-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
