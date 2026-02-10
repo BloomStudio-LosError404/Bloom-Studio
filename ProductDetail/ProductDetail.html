@@ -21,114 +21,49 @@
 
 
   <main class="container">
-    <section class="product-view">
-      <div class="gallery">
-        <div class="thumbnails">
-          <img src="#" alt="mini">
-          <img src="#" alt="mini">
-        </div>
-        <div class="main-image">
-          <img src="#" alt="Dou">
-        </div>
-      </div>
+        <section class="product-view">
+            <div class="gallery">
+                <div class="thumbnails" id="thumbnails-container">
+                    </div>
+                <div class="main-image">
+                    <img id="main-product-img" src="" alt="Cargando...">
+                </div>
+            </div>
 
-      <div class="product-info">
-        <h1></h1>
-        <p class="price"></p>
-      
+            <div class="product-info">
+                <h1 id="product-name"></h1>
+                <p class="price" id="product-price"></p>
+                
+                <h3>Color</h3>
+                <div class="color-options" id="color-selector">
+                    </div>
 
-        <h3>Color</h3>
-        <div class="color-options" id="color-selector">
-          <span class="" data-color=""></span>
-          <span class="" data-color=""></span>
-          <span class="" data-color="></span>
-        </div>
-        <div class="actions">
-          <button id="btn-add-to-cart" class="btn-secondary">Añadir al carrito</button>
-        </div>
+                <h3>Talla</h3>
+                <div class="size-options" id="size-selector">
+                    </div>
 
-        <div class="size-options" id="size-selector">
-          <span class="pill" data-size=""></span>
-          <span class="pill" data-size=""></span>
-          <span class="pill" data-size=""></span>
-        </div>
-      </div>
-    </section>
+                <div class="actions">
+                    <button id="btn-add-to-cart" class="btn-primary">Añadir al carrito</button>
+                </div>
+            </div>
+        </section>
 
-    <section class="details">
-      <h2 class="section-title">Detalles</h2>
-      <div class="description">
-        <h3></h3>
-        <p></p>
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
+        <section class="details">
+            <h2 class="section-title">Detalles</h2>
+            <div class="description">
+                <h3 id="detail-title"></h3>
+                <p id="detail-description"></p>
+                <ul id="specs-list">
+                    </ul>
+            </div>
+        </section>
 
-        <h3 style="margin-top: 20px;">Cuidados</h3>
-        <p></p>
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="related">
-      <h2 class="related-header">Podrías estar interesado en</h2>
-      <div class="related-grid">
-
-        <div class="product-card">
-          <div class="card-img">
-            <img src="#" alt="Tag">
-          </div>
-          <div class="card-info">
-            <h4></h4>
-            <p class="card-price"></p>
-
-          </div>
-        </div>
-        <div class="product-card">
-          <div class="card-img">
-            <img src="#" alt="">
-          </div>
-          <div class="card-info">
-            <h4></h4>
-            <p class="card-price"></p>
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="card-img">
-            <img src="#" alt="">
-          </div>
-          <div class="card-info">
-            <h4></h4>
-            <p class="card-price"></p>
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="card-img">
-            <img src="#" alt="">
-          </div>
-          <div class="card-info">
-            <h4></h4>
-            <p class="card-price"></p>
-          </div>
-        </div>
-
-
-      </div>
-    </section>
-
-
-  </main>
+        <section class="related">
+            <h2 class="related-header">Podrías estar interesado en</h2>
+            <div class="related-grid" id="related-grid">
+                </div>
+        </section>
+    </main>
 
 
   <div id="appFooter"></div>
