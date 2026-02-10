@@ -5,26 +5,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!product) {
         console.error("No se encontró información del producto. Regresando al catálogo...");
-        // Opcional: window.location.href = "../Shop/index.html"; 
         return;
     }
 
-    // 2. Renderizar Información Principal (Textos)
+    // --- IDENTIFICAR CATEGORÍA ---
+    
+    const isClothing = product.category === "sudadera" || product.category === "playeras";
+
+    // --- 2. RENDERIZAR INFORMACIÓN PRINCIPAL ---
     document.querySelector(".product-info h1").textContent = product.name ?? "Producto sin nombre";
     document.querySelector(".product-info .price").textContent = `$ ${Number(product.price || 0).toFixed(2)}`;
     document.querySelector(".description h3").textContent = product.name;
-    document.querySelector(".description p").textContent = product.description ?? "Sin descripción disponible.";
 
-    // 3. Renderizar Galería de Imágenes (Miniaturas y Principal)
+    // Lógica de descripción editable:
+    const descP = document.querySelector(".description p");
+    descP.textContent = product.mensaje_detalle || product.description || "Sin descripción disponible.";
+
+    // --- 3. GALERÍA DE IMÁGENES (Tu lógica funcional) ---
     const thumbnailsContainer = document.querySelector(".thumbnails");
     const mainImg = document.querySelector(".main-image img");
 
-    // Lógica de imágenes: si el JSON no tiene array 'images', usamos la principal 3 veces para el diseño
     const imagesToShow = (product.images && product.images.length > 0) 
         ? product.images 
         : [product.image?.src, product.image?.src, product.image?.src];
 
-    // Inyectar miniaturas dinámicamente
     thumbnailsContainer.innerHTML = imagesToShow.map((imgSrc, index) => `
         <img src="${imgSrc}" 
              alt="mini-${index}" 
@@ -33,33 +37,54 @@ document.addEventListener("DOMContentLoaded", () => {
              style="cursor: pointer; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; width: 80px; height: 80px;">
     `).join("");
 
-    // Imagen principal inicial
     mainImg.src = product.image?.src || "https://via.placeholder.com/400";
     mainImg.alt = product.name;
 
-    // 4. Rellenar Opciones (Colores y Tallas)
+    // --- 4. OPCIONES CONDICIONALES (Colores, Tallas y Cuidados) ---
     const colorSelector = document.getElementById("color-selector");
     const sizeSelector = document.getElementById("size-selector");
+    
+    // Seleccionamos los títulos o contenedores de cuidados para ocultarlos si no es ropa
+    const cuidadosH3 = document.querySelector(".description h3:nth-of-type(2)");
+    const cuidadosP = document.querySelector(".description p:nth-of-type(2)");
 
-    if (product.colors && Array.isArray(product.colors)) {
-        colorSelector.innerHTML = product.colors.map(color => 
-            `<span class="dot" data-color="${color}" style="background-color: ${color}; width: 25px; height: 25px; border-radius: 50%; display: inline-block; margin-right: 10px; cursor: pointer; border: 1px solid #ccc;"></span>`
-        ).join("");
+    if (isClothing) {
+        // --- ES ROPA: Mostrar todo ---
+        if (colorSelector) {
+            colorSelector.style.display = "block";
+            colorSelector.innerHTML = (product.colors || []).map(color => 
+                `<span class="dot" data-color="${color}" style="background-color: ${color}; width: 25px; height: 25px; border-radius: 50%; display: inline-block; margin-right: 10px; cursor: pointer; border: 1px solid #ccc;"></span>`
+            ).join("");
+        }
+
+        if (sizeSelector) {
+            sizeSelector.style.display = "block";
+            sizeSelector.innerHTML = (product.sizes || []).map(size => 
+                `<span class="pill" data-size="${size}" style="padding: 8px 15px; border: 1px solid #ccc; border-radius: 20px; margin-right: 10px; cursor: pointer; display: inline-block;">${size}</span>`
+            ).join("");
+        }
+
+        if (cuidadosH3) cuidadosH3.style.display = "block";
+        if (cuidadosP) {
+            cuidadosP.style.display = "block";
+            cuidadosP.textContent = product.cuidados || "Lavar a mano, secar a la sombra.";
+        }
+    } else {
+        // --- NO ES ROPA: Ocultar para que el contenido suba ---
+        if (colorSelector) colorSelector.style.display = "none";
+        if (sizeSelector) sizeSelector.style.display = "none";
+        if (cuidadosH3) cuidadosH3.style.display = "none";
+        if (cuidadosP) cuidadosP.style.display = "none";
     }
 
-    if (product.sizes && Array.isArray(product.sizes)) {
-        sizeSelector.innerHTML = product.sizes.map(size => 
-            `<span class="pill" data-size="${size}" style="padding: 8px 15px; border: 1px solid #ccc; border-radius: 20px; margin-right: 10px; cursor: pointer; display: inline-block;">${size}</span>`
-        ).join("");
-    }
 
-    // Volver a activar la lógica de selección (la función que tienes en tu HTML)
+    // Activar selección visual (dots y pills)
     if (typeof setupSelection === "function") {
         setupSelection('.dot');
         setupSelection('.pill');
     }
 
-    // 5. Rellenar "Podrías estar interesado en" (Productos relacionados)
+    // --- 5. PRODUCTOS RELACIONADOS ---
     const relatedGrid = document.querySelector(".related-grid");
     const relatedProducts = allProducts.filter(p => p.id !== product.id).slice(0, 4);
 
@@ -76,23 +101,19 @@ document.addEventListener("DOMContentLoaded", () => {
     `).join("");
 });
 
-/**
- * Cambia la imagen principal cuando se hace click en una miniatura
- */
+/** Cambia la imagen principal al clickear miniatura **/
 window.changeMainImage = (src) => {
     const mainImg = document.querySelector(".main-image img");
     if (mainImg) mainImg.src = src;
 };
 
-/**
- * Cambia el producto actual por uno relacionado
- */
+/** Cambia el producto actual **/
 window.changeProduct = (id) => {
     const all = JSON.parse(localStorage.getItem("allProducts")) || [];
     const selected = all.find(p => String(p.id) === String(id));
     if (selected) {
         localStorage.setItem("selectedProduct", JSON.stringify(selected));
-        window.location.reload(); // Recarga la página con los datos del nuevo producto
-        window.scrollTo(0, 0);    // Sube al inicio de la página
+        window.location.reload();
+        window.scrollTo(0, 0);
     }
 };
