@@ -215,8 +215,9 @@ width: 100%;
   margin: 4px 0 14px;
   font-size: 1.2rem;
 }
-
-.product-hero__content button {
+.product-hero__content .btn-primary {
+  display: inline-block; /* clave para que funcione como botón */
+  text-decoration: none; /* quita subrayado */
   border: none;
   padding: 8px 16px;
   border-radius: 10px;
@@ -227,10 +228,11 @@ width: 100%;
   transition: background 0.3s ease, transform 0.3s ease;
 }
 
-.product-hero__content button:hover {
+.product-hero__content .btn-primary:hover {
   background: #3d315a;
   transform: scale(1.05);
 }
+
 
 .product-hero__card img {
   width: 120px;
@@ -433,7 +435,9 @@ width: 100%;
   transition: transform 0.4s ease;
 }
 
-.exproducts-container button {
+.exproducts-container .btn-primary {
+  display: inline-block; /* clave para que funcione como botón */
+  text-decoration: none; /* quita subrayado */
   border: none;
   padding: 8px 16px;
   border-radius: 10px;
@@ -444,10 +448,11 @@ width: 100%;
   transition: background 0.3s ease, transform 0.3s ease;
 }
 
-.exproducts-container button:hover {
+.exproducts-container .btn-primary:hover {
   background: #3d315a;
   transform: scale(1.05);
 }
+
 
 /* hover sutil */
 .exproducts-image img:hover {
@@ -575,6 +580,26 @@ width: 100%;
   line-height: 1.5;
   margin-bottom: 18px;
 }
+
+
+.featured-overlay .btn-primary {
+  display: inline-block; /* clave para que funcione como botón */
+  text-decoration: none; /* quita subrayado */
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: #4b3c6b;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.featured-overlay .btn-primary:hover {
+  background: #3d315a;
+  transform: scale(1.05);
+}
+
 
 .featured-overlay button {
   border: none;
