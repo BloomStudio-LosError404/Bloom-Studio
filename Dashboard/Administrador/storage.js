@@ -12,13 +12,13 @@ class ProductManager {
             const initialProducts = [
                 {
                     id: 1,
-                    name: 'Laptop Gamer',
-                    description: 'Laptop de alto rendimiento para gaming',
+                    name: '',
+                    description: '',
                     price: 1200.99,
                     category: 'Tazas',
                     stock: 15,
-                    image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302',
-                    sku: 'LAP-001',
+                    image: '',
+                    sku: 'TAZ-001',
                     createdAt: new Date().toISOString()
                 },
                 {
