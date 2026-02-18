@@ -74,6 +74,7 @@ async function bootstrap() {
     await loadLayout();
     document.documentElement.classList.remove("layout-loading");
     document.documentElement.classList.add("layout-ready");
+     window.actualizarNumeroCarrito();
 
     initGlobalEnhancements();
 
@@ -85,3 +86,70 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("[app.js] Error en bootstrap:", err);
     });
 });
+
+
+
+
+// Función carrito
+window.actualizarNumeroCarrito = function() {
+    if (!cuentaCarritoElement) {
+        cuentaCarritoElement = document.getElementById("cuenta-carrito");
+    }
+    const memoria = JSON.parse(localStorage.getItem("Articulos")) || [];
+    const cuenta = memoria.reduce((acum, current) => acum + current.cantidad, 0);
+    if (cuentaCarritoElement) {
+        cuentaCarritoElement.innerText = cuenta;
+    }
+};
+
+
+window.actualizarNumeroCarrito = function() {
+    
+    const elContador = document.getElementById("cuenta-carrito");
+    
+    const memoria = JSON.parse(localStorage.getItem("Articulos")) || [];
+    const cuenta = memoria.reduce((acum, current) => acum + current.cantidad, 0);
+    
+    if (elContador) {
+        elContador.innerText = cuenta;
+    } else {
+        
+        console.warn("Contador no encontrado en el DOM todavía.");
+    }
+};
+
+
+window.agregarAlCarrito = function(producto) {
+    let memoria = JSON.parse(localStorage.getItem("Articulos")) || [];
+    const indiceProducto = memoria.findIndex(item => item.id === producto.id);
+
+    if (indiceProducto === -1) {
+        memoria.push({ ...producto, cantidad: 1 });
+    } else {
+        memoria[indiceProducto].cantidad++;
+    }
+    
+    localStorage.setItem("Articulos", JSON.stringify(memoria));
+    
+    
+    window.actualizarNumeroCarrito(); 
+};
+
+
+window.restarAlCarrito = function(producto) {
+    let memoria = JSON.parse(localStorage.getItem("Articulos")) || [];
+    const indiceProducto = memoria.findIndex(item => item.id === producto.id);
+
+    if (indiceProducto !== -1) {
+        if (memoria[indiceProducto].cantidad > 1) {
+            memoria[indiceProducto].cantidad--;
+        } else {
+            memoria.splice(indiceProducto, 1);
+        }
+    }
+    
+    localStorage.setItem("Articulos", JSON.stringify(memoria));
+    window.actualizarNumeroCarrito();
+};
+
+
