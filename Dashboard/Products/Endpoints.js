@@ -1,7 +1,9 @@
 const API_PRODUCTO = "http://localhost:8080/api/v1/productos/admin";
+const API_CREAR = "http://localhost:8080/api/v1/productos/con-imagen";
 
 const contenedor = document.getElementById("contenedorProductos");
 const buscador = document.getElementById("buscadorProducto");
+const form = document.getElementById("formProducto");
 
 let listaProductos = [];
 
@@ -9,7 +11,6 @@ const mxn = new Intl.NumberFormat('es-MX', {
   style: 'currency',
   currency: 'MXN'
 });
-
 
 /* ================================
    CARGAR PRODUCTOS
@@ -31,14 +32,13 @@ async function cargarProductos() {
   }
 }
 
-
 /* ================================
    RENDER PRODUCTOS
 ================================ */
 function renderProductos(productos) {
   contenedor.innerHTML = "";
 
-  if (productos.length === 0) {
+  if (!productos || productos.length === 0) {
     contenedor.innerHTML = "<p>No se encontraron productos</p>";
     return;
   }
@@ -50,8 +50,13 @@ function renderProductos(productos) {
       prod.estatus ? "producto-activo" : "producto-inactivo"
     }`;
 
+    const imagenValida =
+      prod.imgUrl && prod.imgUrl.startsWith("http")
+        ? prod.imgUrl
+        : "https://via.placeholder.com/300";
+
     card.innerHTML = `
-      <img src="${prod.imgUrl || 'https://via.placeholder.com/300'}" class="producto-img">
+      <img src="${imagenValida}" class="producto-img">
       <h3>${prod.nombre}</h3>
       <p><strong>SKU:</strong> ${prod.sku}</p>
       <p><strong>Precio:</strong> ${mxn.format(prod.precio)}</p>
@@ -66,21 +71,73 @@ function renderProductos(productos) {
   });
 }
 
+/* ================================
+   BUSCADOR
+================================ */
+if (buscador) {
+  buscador.addEventListener("input", () => {
+    const texto = buscador.value.toLowerCase().trim();
+
+    const filtrados = listaProductos.filter(prod =>
+      prod.nombre.toLowerCase().includes(texto) ||
+      prod.sku.toLowerCase().includes(texto)
+    );
+
+    renderProductos(filtrados);
+  });
+}
 
 /* ================================
-   BUSCADOR EN TIEMPO REAL
+   GUARDAR PRODUCTO (MULTIPART)
 ================================ */
-buscador.addEventListener("input", () => {
-  const texto = buscador.value.toLowerCase().trim();
+if (form) {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const filtrados = listaProductos.filter(prod =>
-    prod.nombre.toLowerCase().includes(texto) ||
-    prod.sku.toLowerCase().includes(texto)
-  );
+    const sku = document.getElementById("skuProducto").value.trim();
+    const nombre = document.getElementById("nombreProducto").value.trim();
+    const descripcion = document.getElementById("descripcionProducto").value.trim();
+    const precio = document.getElementById("precioProducto").value;
+    const imagen = document.getElementById("imagenProducto").files[0];
 
-  renderProductos(filtrados);
-});
+    if (!imagen) {
+      alert("Debes seleccionar una imagen");
+      return;
+    }
 
+    const producto = {
+      sku,
+      nombre,
+      descripcion,
+      precio: parseFloat(precio)
+    };
+
+    const formData = new FormData();
+    formData.append("producto", JSON.stringify(producto));
+    formData.append("imagen", imagen);
+
+    try {
+      const res = await fetch(API_CREAR, {
+        method: "POST",
+        body: formData
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(errorText);
+      }
+
+      alert("Producto guardado correctamente ");
+
+      form.reset();
+      cargarProductos();
+
+    } catch (error) {
+      console.error("Error al guardar:", error);
+      alert("Error al guardar producto ");
+    }
+  });
+}
 
 /* ================================
    INICIALIZAR

@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     showConfirmButton: false
                 }).then(() => {
                     if (data.role === 'ADMIN' || data.role === 'ROLE_ADMIN') {
-                        window.location.href = '../../Administrator/admin.html';
+                        window.location.href = '../../Dashboard/index.html';
                     } else {
                         window.location.href = '../../index.html';
                     }
