@@ -10,6 +10,7 @@ export const createStore = ({ products = [] }) => {
     categories: new Set(),
     colors: new Set(),
     sizes: new Set(),
+    tags: new Set(),
     priceMin: null,
     priceMax: null,
     sort: "relevance",
@@ -20,7 +21,6 @@ export const createStore = ({ products = [] }) => {
   };
 
   const $ = (id) => document.getElementById(id);
-
   const exists = (id) => !!document.getElementById(id);
 
   const saveFavorites = () => {
@@ -30,7 +30,9 @@ export const createStore = ({ products = [] }) => {
   const normalizeImage = (product) => {
     const img = product?.image ?? {};
     return {
-      src: img.src || "https://via.placeholder.com/640x480?text=Producto",
+      src:
+        img.src ||
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480'%3E%3Crect width='100%25' height='100%25' fill='%23eee'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23666' font-size='28'%3EProducto%3C/text%3E%3C/svg%3E",
       alt: img.alt || "Imagen referencial del producto"
     };
   };
@@ -46,20 +48,116 @@ export const createStore = ({ products = [] }) => {
 
   const goToProduct = (productId) => {
     if (!ENABLE_EXTERNAL_PRODUCT_PAGE) return;
-
-    // Link vacío por ahora (placeholder). Evitamos recargar.
-    // Cuando exista ProductDetail real, cambiar esto.
     if (!PRODUCT_DETAIL_URL) return;
+    window.location.href = `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(productId)}`;
+  };
 
-    const selectedProduct = state.products.find(p => p.id === productId || p.id == productId);
-
-    if (selectedProduct) {
-        // Guardamos el producto individual
-        localStorage.setItem("selectedProduct", JSON.stringify(selectedProduct));
-        localStorage.setItem("allProducts", JSON.stringify(state.products));
-        window.location.href = `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(productId)}`;
+  const uniqSorted = (arr) => {
+    const set = new Set();
+    for (const v of arr) {
+      const clean = String(v ?? "").trim();
+      if (clean) set.add(clean);
     }
-};
+    return [...set].sort((a, b) => a.localeCompare(b, "es", { sensitivity: "base" }));
+  };
+
+  const collectFilterOptions = (list) => {
+    const categories = [];
+    const colors = [];
+    const sizes = [];
+    const tags = [];
+
+    for (const p of list) {
+      if (p?.category) categories.push(p.category);
+      if (Array.isArray(p?.colors)) colors.push(...p.colors);
+      if (Array.isArray(p?.sizes)) sizes.push(...p.sizes);
+      if (Array.isArray(p?.tags)) tags.push(...p.tags);
+    }
+
+    return {
+      categories: uniqSorted(categories),
+      colors: uniqSorted(colors),
+      sizes: uniqSorted(sizes),
+      tags: uniqSorted(tags)
+    };
+  };
+
+  const renderCheckboxList = ({ containerId, items, inputClass, idPrefix }) => {
+    if (!exists(containerId)) return;
+    const container = $(containerId);
+
+    if (!items.length) {
+      container.innerHTML = `<div class="text-muted small">Sin opciones</div>`;
+      return;
+    }
+
+    container.innerHTML = items
+      .map((label, idx) => {
+        const safeId = `${idPrefix}${idx}`;
+        const value = label;
+        return `
+          <div class="form-check">
+            <input class="form-check-input ${inputClass}" type="checkbox" value="${value}" id="${safeId}">
+            <label class="form-check-label" for="${safeId}">${label}</label>
+          </div>
+        `;
+      })
+      .join("");
+  };
+
+  const renderDynamicFilters = () => {
+    const opts = collectFilterOptions(state.products);
+
+    renderCheckboxList({
+      containerId: "filterCategoriesDesktop",
+      items: opts.categories,
+      inputClass: "filter-category",
+      idPrefix: "catD_"
+    });
+    renderCheckboxList({
+      containerId: "filterColorsDesktop",
+      items: opts.colors,
+      inputClass: "filter-color",
+      idPrefix: "colD_"
+    });
+    renderCheckboxList({
+      containerId: "filterSizesDesktop",
+      items: opts.sizes,
+      inputClass: "filter-size",
+      idPrefix: "sizD_"
+    });
+    renderCheckboxList({
+      containerId: "filterTagsDesktop",
+      items: opts.tags,
+      inputClass: "filter-tag",
+      idPrefix: "tagD_"
+    });
+
+    renderCheckboxList({
+      containerId: "filterCategoriesMobile",
+      items: opts.categories,
+      inputClass: "filter-category",
+      idPrefix: "catM_"
+    });
+    renderCheckboxList({
+      containerId: "filterColorsMobile",
+      items: opts.colors,
+      inputClass: "filter-color",
+      idPrefix: "colM_"
+    });
+    renderCheckboxList({
+      containerId: "filterSizesMobile",
+      items: opts.sizes,
+      inputClass: "filter-size",
+      idPrefix: "sizM_"
+    });
+    renderCheckboxList({
+      containerId: "filterTagsMobile",
+      items: opts.tags,
+      inputClass: "filter-tag",
+      idPrefix: "tagM_"
+    });
+  };
 
   const applyFilters = (list) => {
     let result = list;
@@ -67,13 +165,11 @@ export const createStore = ({ products = [] }) => {
     if (state.search.trim()) {
       const q = state.search.toLowerCase();
       result = result.filter((p) =>
-        `${p.name ?? ""} ${p.description ?? ""}${p.category ?? ""}`.toLowerCase().includes(q)
+        `${p.name ?? ""} ${p.description ?? ""} ${p.category ?? ""}`.toLowerCase().includes(q)
       );
     }
 
-    if (state.categories.size) {
-      result = result.filter((p) => state.categories.has(p.category));
-    }
+    if (state.categories.size) result = result.filter((p) => state.categories.has(p.category));
 
     if (state.colors.size) {
       result = result.filter(
@@ -87,13 +183,12 @@ export const createStore = ({ products = [] }) => {
       );
     }
 
-    if (state.priceMin !== null) {
-      result = result.filter((p) => Number(p.price) >= Number(state.priceMin));
+    if (state.tags.size) {
+      result = result.filter((p) => Array.isArray(p.tags) && p.tags.some((t) => state.tags.has(t)));
     }
 
-    if (state.priceMax !== null) {
-      result = result.filter((p) => Number(p.price) <= Number(state.priceMax));
-    }
+    if (state.priceMin !== null) result = result.filter((p) => Number(p.price) >= Number(state.priceMin));
+    if (state.priceMax !== null) result = result.filter((p) => Number(p.price) <= Number(state.priceMax));
 
     if (state.sort === "priceAsc") result = [...result].sort((a, b) => a.price - b.price);
     if (state.sort === "priceDesc") result = [...result].sort((a, b) => b.price - a.price);
@@ -127,11 +222,12 @@ export const createStore = ({ products = [] }) => {
     const start = (state.page - 1) * state.pageSize;
     const pageItems = filtered.slice(start, start + state.pageSize);
 
-    grid.innerHTML = pageItems.map((p) => {
-      const fav = state.favorites.has(p.id);
-      const img = normalizeImage(p);
+    grid.innerHTML = pageItems
+      .map((p) => {
+        const fav = state.favorites.has(p.id);
+        const img = normalizeImage(p);
 
-      return `
+        return `
         <div class="col-12 col-sm-6 col-lg-4" role="listitem">
           <a class="product-link" href="" data-action="open" data-id="${p.id}" aria-label="Abrir producto">
             <article class="product-card" aria-label="Producto">
@@ -153,7 +249,8 @@ export const createStore = ({ products = [] }) => {
           </a>
         </div>
       `;
-    }).join("");
+      })
+      .join("");
 
     renderPagination(totalPages);
   };
@@ -189,6 +286,8 @@ export const createStore = ({ products = [] }) => {
   };
 
   const bindEvents = () => {
+    renderDynamicFilters();
+
     $("filtersToggle")?.addEventListener("click", openFilters);
     $("filtersClose")?.addEventListener("click", closeFilters);
     $("filtersOverlay")?.addEventListener("click", closeFilters);
@@ -211,7 +310,7 @@ export const createStore = ({ products = [] }) => {
       }
 
       if (action === "open") {
-        e.preventDefault(); // href="" placeholder
+        e.preventDefault();
         goToProduct(id);
         return;
       }
@@ -267,6 +366,14 @@ export const createStore = ({ products = [] }) => {
       })
     );
 
+    document.querySelectorAll(".filter-tag").forEach((cb) =>
+      cb.addEventListener("change", (e) => {
+        e.target.checked ? state.tags.add(e.target.value) : state.tags.delete(e.target.value);
+        state.page = 1;
+        renderStore();
+      })
+    );
+
     $("applyPrice")?.addEventListener("click", () => {
       state.priceMin = $("priceMin").value || null;
       state.priceMax = $("priceMax").value || null;
@@ -286,8 +393,11 @@ export const createStore = ({ products = [] }) => {
   const setProducts = (newProducts) => {
     state.products = Array.isArray(newProducts) ? newProducts : [];
     state.page = 1;
+    renderDynamicFilters();
     renderStore();
   };
+
+  renderDynamicFilters();
 
   return { bindEvents, render: renderStore, setProducts };
 };

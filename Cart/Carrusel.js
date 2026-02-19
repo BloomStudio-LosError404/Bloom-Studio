@@ -1,60 +1,73 @@
 let currentOffset = 0;
+
+// Tomamos el track UNA sola vez y validamos su existencia
 const track = document.getElementById('product-track');
 
-// 1. Cargar productos desde el JSON
+// Solo carga productos si existe la sección "Te podría interesar"
 async function cargarProductos() {
-    try {
-        const response = await fetch('../src/data/products.catalog.json'); // Asegúrate que el nombre sea exacto
-        const data = await response.json();
+    if (!track) return; // Este JS queda “encapsulado” a esa sección
 
-        // ACCESO CORRECTO: Entramos a la propiedad 'products' del objeto
-        if (data && data.products) {
-            renderizarProductos(data.products);
-        } else {
-            console.error("No se encontró la lista de productos en el JSON");
+    try {
+        const response = await fetch('http://localhost:8080/api/v1/productos/catalogo');
+
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
         }
+
+        const data = await response.json();
+        renderizarProductos(Array.isArray(data) ? data : []);
+
+        // Reinicia el offset por si el usuario venía desplazado
+        currentOffset = 0;
+        track.style.transform = `translateX(0px)`;
+
     } catch (error) {
-        console.error("Error cargando el JSON:", error);
+        console.error("Error conectando con el backend para 'Te podría interesar':", error);
+        track.innerHTML = ""; // Evita que quede basura visual
     }
 }
 
-function renderizarProductos(lista) {
-    const track = document.getElementById('product-track');
-    
-    track.innerHTML = lista.map(p => `
-        <div class="product-card">
-            <div class="img-container">
-                <img src="${p.image.src}" alt="${p.image.alt}">
-            </div>
-            <div class="card-info">
-                <h3>${p.name}</h3>
-                <p class="description">${p.description}</p>
-                
-                <div class="card-footer">
-                    <div class="price-badge">$${p.price.toFixed(2)}</div>
-                    <div class="reviews">
-                        <span class="star-icon">⭐</span>
-                        <span class="rating-text">${p.rating} (${p.reviews})</span>
+function renderizarProductos(data) {
+    if (!track) return;
+
+    track.innerHTML = data.map(p => {
+        const imgSrc = p.imagen?.src || p.imgUrl || "";
+
+        return `
+            <div class="product-card">
+                <div class="img-container">
+                    <img src="${imgSrc}" alt="${p.imagen?.alt || p.nombre || 'Producto'}">
+                </div>
+                <div class="card-info">
+                    <h3>${p.nombre || 'Sin nombre'}</h3>
+                    <p class="description">${p.descripcion || ''}</p>
+                    <div class="card-footer">
+                        <div class="price-badge">$${p.precio ? Number(p.precio).toFixed(2) : "0.00"}</div>
                     </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
-// 3. Función para mover el carrusel
+// Debe ser global porque el HTML usa onclick="moveSlide(...)"
 function moveSlide(direction) {
-    const cardWidth = document.querySelector('.product-card').offsetWidth + 20;
+    if (!track) return;
+
+    const card = track.querySelector('.product-card');
+    if (!card) return;
+
+    const cardWidth = card.offsetWidth + 20;
     const maxScroll = track.scrollWidth - track.parentElement.offsetWidth;
 
     currentOffset += direction * cardWidth;
 
-    // Limites para que no se salga del contenido
     if (currentOffset < 0) currentOffset = 0;
     if (currentOffset > maxScroll) currentOffset = maxScroll;
 
     track.style.transform = `translateX(-${currentOffset}px)`;
 }
 
-// Iniciar
-cargarProductos();
+// Iniciar solo cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', cargarProductos);
+

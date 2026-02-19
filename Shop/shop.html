@@ -1,240 +1,196 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title>Tienda | Bloom Studio</title>
+
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="./shop.css" />
   <link rel="stylesheet" href="../Layout/Header/style.css">
   <link rel="stylesheet" href="../Layout/Footer/style.css">
-  <title>Bloom Studio | Tienda</title>
+  
 </head>
 
 <body>
-  <div id="appHeader"></div>
+  <!-- Header (si lo inyectas con layoutLoader) -->
+  <header id="appHeader"></header>
 
-
-  <section class="store-hero" aria-label="Encabezado de la página">
-    <div class="container-fluid py-3">
-      <h1 class="store-title text-center m-0">Tienda</h1>
+  <section class="store-hero">
+    <div class="container">
+      <h1 class="store-title">Tienda</h1>
     </div>
   </section>
 
-  <main class="container-fluid my-3 store-layout" aria-label="Contenido principal de Tienda">
-    <div class="row g-3">
+  <main class="container store-layout py-4">
+    <div class="row g-4">
+      <!-- Panel filtros desktop -->
+      <aside class="col-12 col-lg-3 d-none d-lg-block">
+        <div class="store-panel store-panel--filters p-3">
+          <h2 class="store-panel-title">Filtros</h2>
 
+          <div class="mb-3">
+            <label class="form-label" for="storeSearchDesktop">Buscar</label>
+            <input
+              id="storeSearchDesktop"
+              class="form-control store-search"
+              type="search"
+              placeholder="Buscar por nombre, descripción o categoría"
+              autocomplete="off"
+            />
+          </div>
 
-      <aside class="col-12 col-lg-3 d-none d-lg-block" aria-label="Filtros">
-        <div class="store-panel store-panel--filters p-3 mb-3" aria-label="Panel de filtros">
+          <div class="mb-3">
+            <label class="form-label" for="sortSelectDesktop">Ordenar</label>
+            <select id="sortSelectDesktop" class="form-select store-sort">
+              <option value="relevance" selected>Relevancia</option>
+              <option value="priceAsc">Precio: menor a mayor</option>
+              <option value="priceDesc">Precio: mayor a menor</option>
+              <option value="ratingDesc">Mejor calificados</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label">Rango de precio</label>
+            <div class="row g-2">
+              <div class="col-6">
+                <input id="priceMin" class="form-control" type="number" min="0" placeholder="Mín" />
+              </div>
+              <div class="col-6">
+                <input id="priceMax" class="form-control" type="number" min="0" placeholder="Máx" />
+              </div>
+            </div>
+            <button id="applyPrice" class="btn btn-dark w-100 mt-2" type="button">
+              Aplicar
+            </button>
+          </div>
+
           <section class="filter-section" aria-label="Categorías">
-            <h2 class="store-panel-title">Categorías</h2>
-
-            <div class="form-check">
-              <input class="form-check-input filter-category" type="checkbox" value="vinil" id="catVinil">
-              <label class="form-check-label" for="catVinil">Vinil</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input filter-category" type="checkbox" value="papeleria" id="catPapeleria">
-              <label class="form-check-label" for="catPapeleria">Papelería</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input filter-category" type="checkbox" value="invitaciones" id="catInvitaciones">
-              <label class="form-check-label" for="catInvitaciones">Invitaciones</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input filter-category" type="checkbox" value="kits" id="catKits">
-              <label class="form-check-label" for="catKits">Kits</label>
-            </div>
+            <h3 class="store-panel-title">Categorías</h3>
+            <div id="filterCategoriesDesktop"></div>
           </section>
 
           <section class="filter-section" aria-label="Colores">
-            <h2 class="store-panel-title mt-3">Colores</h2>
-
-            <div class="form-check">
-              <input class="form-check-input filter-color" type="checkbox" value="negro" id="colorNegro">
-              <label class="form-check-label" for="colorNegro">Negro</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input filter-color" type="checkbox" value="blanco" id="colorBlanco">
-              <label class="form-check-label" for="colorBlanco">Blanco</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input filter-color" type="checkbox" value="otros" id="colorOtros">
-              <label class="form-check-label" for="colorOtros">Otros</label>
-            </div>
+            <h3 class="store-panel-title">Colores</h3>
+            <div id="filterColorsDesktop"></div>
           </section>
 
           <section class="filter-section" aria-label="Tallas">
-            <h2 class="store-panel-title mt-3">Tallas</h2>
-
-            <div class="form-check">
-              <input class="form-check-input filter-size" type="checkbox" value="S" id="sizeS">
-              <label class="form-check-label" for="sizeS">S</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input filter-size" type="checkbox" value="M" id="sizeM">
-              <label class="form-check-label" for="sizeM">M</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input filter-size" type="checkbox" value="L" id="sizeL">
-              <label class="form-check-label" for="sizeL">L</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input filter-size" type="checkbox" value="UNICA" id="sizeUnica">
-              <label class="form-check-label" for="sizeUnica">Única</label>
-            </div>
+            <h3 class="store-panel-title">Tallas</h3>
+            <div id="filterSizesDesktop"></div>
           </section>
-        </div>
 
-        <div class="store-panel p-3">
-          <h2 class="store-panel-title">Precio</h2>
-          <div class="d-flex gap-2 mb-2">
-            <input id="priceMin" type="number" class="form-control" min="0" placeholder="Mínimo">
-            <input id="priceMax" type="number" class="form-control" min="0" placeholder="Máximo">
-          </div>
-          <button id="applyPrice" type="button" class="btn btn-dark w-100">Aplicar</button>
+          <section class="filter-section" aria-label="Etiquetas">
+            <h3 class="store-panel-title">Etiquetas</h3>
+            <div id="filterTagsDesktop"></div>
+          </section>
         </div>
       </aside>
 
-
-      <section class="col-12 col-lg-9" aria-label="Catálogo">
-
-
+      <!-- Contenido -->
+      <section class="col-12 col-lg-9">
+        <!-- Barra móvil (según clases ya definidas en tu CSS) -->
         <div class="store-mobilebar d-lg-none">
-          <button id="filtersToggle" class="store-iconbtn" type="button" aria-label="Abrir filtros"
-            aria-controls="filtersDrawer" aria-expanded="false">
+          <button
+            id="filtersToggle"
+            class="store-iconbtn"
+            type="button"
+            aria-expanded="false"
+            aria-controls="filtersDrawer"
+            title="Filtros"
+          >
             ☰
           </button>
 
-          <input id="storeSearch" type="search" class="form-control store-search" placeholder="Buscar..."
-            autocomplete="off" />
+          <input
+            id="storeSearch"
+            class="form-control store-search"
+            type="search"
+            placeholder="Buscar productos…"
+            autocomplete="off"
+          />
 
-          <select id="sortSelect" class="form-select form-select-sm store-sort" aria-label="Ordenar por">
-            <option value="relevance">Ordenar por</option>
-            <option value="priceAsc">Precio: menor a mayor</option>
-            <option value="priceDesc">Precio: mayor a menor</option>
-            <option value="ratingDesc">Mejor calificados</option>
+          <select id="sortSelect" class="form-select store-sort">
+            <option value="relevance" selected>Relevancia</option>
+            <option value="priceAsc">Precio ↑</option>
+            <option value="priceDesc">Precio ↓</option>
+            <option value="ratingDesc">Rating ↓</option>
           </select>
         </div>
 
+        <!-- Grid productos -->
+        <div class="row g-3" id="productsGrid" role="list"></div>
 
-        <div class="store-desktopbar d-none d-lg-flex justify-content-between align-items-center mb-3">
-          <div class="flex-grow-1 me-3">
-            <input id="storeSearchDesktop" type="search" class="form-control" placeholder="Buscar..."
-              autocomplete="off" />
-          </div>
-          <select id="sortSelectDesktop" class="form-select form-select-sm store-sort" aria-label="Ordenar por">
-            <option value="relevance">Ordenar por</option>
-            <option value="priceAsc">Precio: menor a mayor</option>
-            <option value="priceDesc">Precio: mayor a menor</option>
-            <option value="ratingDesc">Mejor calificados</option>
-          </select>
+        <!-- Paginación (tu CSS espera .store-pagination) -->
+        <div class="d-flex justify-content-center mt-4">
+          <div id="pagination" class="store-pagination d-flex"></div>
         </div>
-
-        <div id="productsGrid" class="row g-3" role="list"></div>
-        <nav id="pagination" class="store-pagination mt-3 d-flex justify-content-center gap-2" aria-label="Paginación">
-        </nav>
       </section>
-
     </div>
   </main>
 
-
+  <!-- Drawer móvil -->
   <div id="filtersOverlay" class="filters-overlay" hidden></div>
 
-  <aside id="filtersDrawer" class="filters-drawer" aria-label="Filtros (móvil)" aria-hidden="true">
+  <aside id="filtersDrawer" class="filters-drawer" aria-hidden="true">
     <div class="filters-drawer__header">
-      <strong>Filtros</strong>
-      <button id="filtersClose" class="store-iconbtn" type="button" aria-label="Cerrar filtros">✕</button>
+      <h2 class="m-0 store-panel-title">Filtros</h2>
+      <button id="filtersClose" class="btn btn-sm btn-outline-dark" type="button">
+        Cerrar
+      </button>
     </div>
 
     <div class="filters-drawer__body">
-      <div class="store-panel store-panel--filters p-3 mb-3">
-        <section class="filter-section" aria-label="Categorías">
-          <h2 class="store-panel-title">Categorías</h2>
-
-          <div class="form-check">
-            <input class="form-check-input filter-category" type="checkbox" value="vinil" id="mCatVinil">
-            <label class="form-check-label" for="mCatVinil">Vinil</label>
+      <div class="mb-4">
+        <label class="form-label">Rango de precio</label>
+        <div class="row g-2">
+          <div class="col-6">
+            <input id="mPriceMin" class="form-control" type="number" min="0" placeholder="Mín" />
           </div>
-          <div class="form-check">
-            <input class="form-check-input filter-category" type="checkbox" value="papeleria" id="mCatPapeleria">
-            <label class="form-check-label" for="mCatPapeleria">Papelería</label>
+          <div class="col-6">
+            <input id="mPriceMax" class="form-control" type="number" min="0" placeholder="Máx" />
           </div>
-          <div class="form-check">
-            <input class="form-check-input filter-category" type="checkbox" value="invitaciones" id="mCatInvitaciones">
-            <label class="form-check-label" for="mCatInvitaciones">Invitaciones</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input filter-category" type="checkbox" value="kits" id="mCatKits">
-            <label class="form-check-label" for="mCatKits">Kits</label>
-          </div>
-        </section>
-
-        <section class="filter-section" aria-label="Colores">
-          <h2 class="store-panel-title mt-3">Colores</h2>
-
-          <div class="form-check">
-            <input class="form-check-input filter-color" type="checkbox" value="negro" id="mColorNegro">
-            <label class="form-check-label" for="mColorNegro">Negro</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input filter-color" type="checkbox" value="blanco" id="mColorBlanco">
-            <label class="form-check-label" for="mColorBlanco">Blanco</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input filter-color" type="checkbox" value="otros" id="mColorOtros">
-            <label class="form-check-label" for="mColorOtros">Otros</label>
-          </div>
-        </section>
-
-        <section class="filter-section" aria-label="Tallas">
-          <h2 class="store-panel-title mt-3">Tallas</h2>
-
-          <div class="form-check">
-            <input class="form-check-input filter-size" type="checkbox" value="S" id="mSizeS">
-            <label class="form-check-label" for="mSizeS">S</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input filter-size" type="checkbox" value="M" id="mSizeM">
-            <label class="form-check-label" for="mSizeM">M</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input filter-size" type="checkbox" value="L" id="mSizeL">
-            <label class="form-check-label" for="mSizeL">L</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input filter-size" type="checkbox" value="UNICA" id="mSizeUnica">
-            <label class="form-check-label" for="mSizeUnica">Única</label>
-          </div>
-        </section>
-      </div>
-
-      <div class="store-panel p-3">
-        <h2 class="store-panel-title">Precio</h2>
-        <div class="d-flex gap-2 mb-2">
-          <input id="mPriceMin" type="number" class="form-control" min="0" placeholder="Mínimo">
-          <input id="mPriceMax" type="number" class="form-control" min="0" placeholder="Máximo">
         </div>
-        <button id="mApplyPrice" type="button" class="btn btn-dark w-100">Aplicar</button>
+        <button id="mApplyPrice" class="btn btn-dark w-100 mt-2" type="button">
+          Aplicar
+        </button>
       </div>
+
+      <section class="filter-section" aria-label="Categorías">
+        <h3 class="store-panel-title">Categorías</h3>
+        <div id="filterCategoriesMobile"></div>
+      </section>
+
+      <section class="filter-section" aria-label="Colores">
+        <h3 class="store-panel-title">Colores</h3>
+        <div id="filterColorsMobile"></div>
+      </section>
+
+      <section class="filter-section" aria-label="Tallas">
+        <h3 class="store-panel-title">Tallas</h3>
+        <div id="filterSizesMobile"></div>
+      </section>
+
+      <section class="filter-section" aria-label="Etiquetas">
+        <h3 class="store-panel-title">Etiquetas</h3>
+        <div id="filterTagsMobile"></div>
+      </section>
     </div>
   </aside>
 
-  <div id="appFooter"></div>
+  <!-- Footer (si lo inyectas con layoutLoader) -->
+  <footer id="appFooter"></footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="./js/main.js"></script>
-  <script src="../src/ScriptHeader/script.js"></script>
   <script type="module" src="../src/ScriptHeader/App.js"></script>
-
+  <script src="../src/ScriptHeader/script.js"></script>
 </body>
-
 </html>

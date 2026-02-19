@@ -1,55 +1,54 @@
+// catalogLoader.js
 import { DATA_SOURCE_URL } from "./config.js";
 
-export async function loadCatalog() {
+export const loadCatalog = async () => {
   try {
-    const response = await fetch(DATA_SOURCE_URL);
+    const res = await fetch(DATA_SOURCE_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-    if (!response.ok) {
-      throw new Error(`Error HTTP: ${response.status}`);
-    }
+    const data = await res.json();
 
-    const data = await response.json();
+    // Soportamos ambos formatos:
+    // 1) Backend (Spring) devuelve arreglo directo: [ { ... }, { ... } ]
+    // 2) Formato previo local: { catalog, products }
+    const raw = Array.isArray(data) ? data : Array.isArray(data.products) ? data.products : [];
 
-   
-    const products = data.map((producto) => ({
-      id: producto.id,
-      sku: producto.sku,
+    // Normaliza a la estructura que consume storeView.js
+    // (si el backend ya devuelve los nombres en inglés, esto no rompe)
+    const products = raw.map((p) => {
+      const isEs =
+        p && ("nombre" in p || "precio" in p || "imagen" in p || "colores" in p || "tallas" in p);
 
-      name: producto.nombre,
-      description: producto.descripcion,
+      if (!isEs) return p;
 
-      category: producto.categoria,
-      categories: producto.categorias || [],
+      const categories = Array.isArray(p.categorias) ? p.categorias : [];
 
-      colors: producto.colores || [],
-      sizes: producto.tallas || [],
+      return {
+        id: p.id,
+        sku: p.sku,
+        name: p.nombre,
+        description: p.descripcion,
+        category: p.categoria || categories[0] || "",
+        categories,
+        colors: Array.isArray(p.colores) ? p.colores : [],
+        sizes: Array.isArray(p.tallas) ? p.tallas : [],
+        price: p.precio,
+        rating: p.rating ?? 0,
+        reviews: p.reviews ?? 0,
+        stockTotal: p.stockTotal ?? 0,
+        tags: Array.isArray(p.etiquetas) ? p.etiquetas : [],
+        image: {
+          src: p.imagen?.src || "",
+          alt: p.imagen?.alt || p.nombre || "Producto"
+        }
+      };
+    });
 
-      price: producto.precio,
-
-      rating: producto.rating ?? 0,
-      reviews: producto.reviews ?? 0,
-
-      stockTotal: producto.stockTotal ?? 0,
-
-      tags: producto.etiquetas || [],
-
-      image: {
-        src: producto.imagen?.src || "",
-        alt: producto.imagen?.alt || producto.nombre
-      }
-    }));
-
-    return {
-      catalog: {},
-      products
-    };
-
-  } catch (error) {
-    console.error("Error cargando catálogo:", error);
-    return {
-      catalog: {},
-      products: []
-    };
+    return { catalog: Array.isArray(data) ? null : data.catalog || null, products };
+  } catch (err) {
+    console.error("No se pudo cargar el catálogo:", err);
+    return { catalog: null, products: [] };
   }
-}
+};
+
 
