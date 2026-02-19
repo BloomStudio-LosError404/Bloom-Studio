@@ -1,20 +1,55 @@
 import { DATA_SOURCE_URL } from "./config.js";
 
-/*
-  Cuando haya un back, se debe de cambiar esto
-*/
-export const loadCatalog = async () => {
+export async function loadCatalog() {
   try {
-    const res = await fetch(DATA_SOURCE_URL, { cache: "no-store" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const response = await fetch(DATA_SOURCE_URL);
 
-    const data = await res.json();
-    const products = Array.isArray(data.products) ? data.products : [];
+    if (!response.ok) {
+      throw new Error(`Error HTTP: ${response.status}`);
+    }
 
-    return { catalog: data.catalog || null, products };
-  } catch (err) {
-    // Cuando haya un back, cambiar esto por esto: mostrar feedback visual según error
-    console.error("No se pudo cargar el catálogo:", err);
-    return { catalog: null, products: [] };
+    const data = await response.json();
+
+   
+    const products = data.map((producto) => ({
+      id: producto.id,
+      sku: producto.sku,
+
+      name: producto.nombre,
+      description: producto.descripcion,
+
+      category: producto.categoria,
+      categories: producto.categorias || [],
+
+      colors: producto.colores || [],
+      sizes: producto.tallas || [],
+
+      price: producto.precio,
+
+      rating: producto.rating ?? 0,
+      reviews: producto.reviews ?? 0,
+
+      stockTotal: producto.stockTotal ?? 0,
+
+      tags: producto.etiquetas || [],
+
+      image: {
+        src: producto.imagen?.src || "",
+        alt: producto.imagen?.alt || producto.nombre
+      }
+    }));
+
+    return {
+      catalog: {},
+      products
+    };
+
+  } catch (error) {
+    console.error("Error cargando catálogo:", error);
+    return {
+      catalog: {},
+      products: []
+    };
   }
-};
+}
+

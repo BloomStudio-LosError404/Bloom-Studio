@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard: Etiquetas</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Material+Icons+Round"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="./Style.css">
+</head>
+
+<body>
+
+  <div class="layout">
+
+    <main class="admin-main">
+
+      <!-- FORM -->
+      <section class="categoria-form-section">
+        <h2>Manager de Etiquetas</h2>
+
+        <div class="categoria-form">
+
+          <div class="form-group">
+            <label>Nombre Etiqueta</label>
+            <input type="text"
+              id="nombreCategoria"
+              maxlength="50"
+              placeholder="Máx 50 caracteres">
+          </div>
+
+          <button id="btnGuardarCategoria" class="btn-guardar">
+            Guardar
+          </button>
+
+        </div>
+      </section>
+
+      <!-- LISTADO -->
+      <section class="products-list-section">
+        <h2>Listado de Etiquetas</h2>
+
+        <div class="categoria-search">
+          <input type="text"
+            id="buscadorCategoria"
+            placeholder="Buscar etiqueta...">
+        </div>
+
+        <div id="contenedorCategorias" class="categorias-grid"></div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL ELIMINAR -->
+  <div class="modal" id="modalEliminarCategoria">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>¿Eliminar etiqueta?</h3>
+      <button id="confirmarEliminarCategoria" class="btn btn-danger">
+        Eliminar
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL EDITAR -->
+  <div class="modal" id="modalEditarCategoria">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+
+      <h3>Actualizar Etiqueta</h3>
+
+      <input type="text"
+        id="editNombreCategoria"
+        maxlength="50"
+        placeholder="Nuevo nombre">
+
+      <select id="editEstatusCategoria">
+        <option value="true">Activa</option>
+        <option value="false">Inactiva</option>
+      </select>
+
+      <button id="confirmarEditarCategoria"
+        class="btn btn-primary">
+        Guardar Cambios
+      </button>
+
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+
+</body>
+</html>
