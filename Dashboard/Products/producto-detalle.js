@@ -16,6 +16,8 @@ const mxn = new Intl.NumberFormat("es-MX", {
   currency: "MXN"
 });
 
+/* ================= INIT ================= */
+
 async function init() {
   if (!productoId) return alert("ID inválido");
 
@@ -48,11 +50,16 @@ function abrirModalEditar() {
   editNombre.value = productoActual.nombre;
   editPrecio.value = productoActual.precio;
   editDescripcion.value = productoActual.descripcion || "";
+
+  previewImagen.style.display = "none";
+  editImagen.value = "";
 }
 
 function cerrarModal() {
   modalEditar.style.display = "none";
 }
+
+/* ================= EDITAR DATOS ================= */
 
 async function guardarEdicion() {
 
@@ -63,20 +70,83 @@ async function guardarEdicion() {
   if (!nombre) return alert("Nombre obligatorio");
   if (isNaN(precio) || precio <= 0) return alert("Precio inválido");
 
-  await fetch(`${API_PRODUCTO}/${productoId}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      sku: productoActual.sku,
-      nombre,
-      precio,
-      descripcion
-    })
-  });
+  try {
 
-  cerrarModal();
-  await cargarProducto();
+    await fetch(`${API_PRODUCTO}/${productoId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sku: productoActual.sku,
+        nombre,
+        precio,
+        descripcion
+      })
+    });
+
+    cerrarModal();
+    await cargarProducto();
+
+    alert("Producto actualizado correctamente ✅");
+
+  } catch (error) {
+    alert("Error al actualizar producto");
+  }
 }
+
+/* ================= ACTUALIZAR IMAGEN ================= */
+
+async function actualizarImagenProducto() {
+
+  const imagen = editImagen.files[0];
+
+  if (!imagen) {
+    return alert("Selecciona una imagen");
+  }
+
+  const formData = new FormData();
+  formData.append("imagen", imagen);
+
+  try {
+
+    const res = await fetch(`${API_PRODUCTO}/${productoId}/imagen`, {
+      method: "PUT",
+      body: formData
+    });
+
+    if (!res.ok) {
+      throw new Error("Error al actualizar imagen");
+    }
+
+    const productoActualizado = await res.json();
+
+    imagenProducto.src = productoActualizado.imgUrl;
+
+    alert("Imagen actualizada correctamente ✅");
+
+    editImagen.value = "";
+    previewImagen.style.display = "none";
+
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+/* ================= PREVIEW IMAGEN ================= */
+
+editImagen.addEventListener("change", function () {
+
+  const file = this.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    previewImagen.src = e.target.result;
+    previewImagen.style.display = "block";
+  };
+
+  reader.readAsDataURL(file);
+});
 
 /* ================= INVENTARIO ================= */
 
@@ -98,13 +168,11 @@ async function cargarInventario() {
         <td>${item.nombreTalla}</td>
         <td>${item.cantidad}</td>
         <td>
-          <div class="btn-group">
-            <button class="btn-mini btn-add"
-              onclick="incrementar(${item.idInventario})">+</button>
+          <button class="btn-mini btn-add"
+            onclick="incrementar(${item.idInventario})">+</button>
 
-            <button class="btn-mini btn-remove"
-              onclick="decrementar(${item.idInventario})">−</button>
-          </div>
+          <button class="btn-mini btn-danger"
+            onclick="decrementar(${item.idInventario})">−</button>
         </td>
       </tr>`;
   });
@@ -245,10 +313,12 @@ async function insertarEtiqueta() {
   await fetch(`${API_PRODUCTO}/${productoId}/etiquetas/${id}`, { method: "POST" });
   cargarRelaciones();
 }
-function volverAtras() {
-  window.history.back();
-}
+
 async function eliminarRelacion(tipo, id) {
   await fetch(`${API_PRODUCTO}/${productoId}/${tipo}/${id}`, { method: "DELETE" });
   cargarRelaciones();
+}
+
+function volverAtras() {
+  window.history.back();
 }
