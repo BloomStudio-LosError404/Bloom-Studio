@@ -51,8 +51,15 @@ export const createStore = ({ products = [] }) => {
     // Cuando exista ProductDetail real, cambiar esto.
     if (!PRODUCT_DETAIL_URL) return;
 
-    window.location.href = `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(productId)}`;
-  };
+    const selectedProduct = state.products.find(p => p.id === productId || p.id == productId);
+
+    if (selectedProduct) {
+        // Guardamos el producto individual
+        localStorage.setItem("selectedProduct", JSON.stringify(selectedProduct));
+        localStorage.setItem("allProducts", JSON.stringify(state.products));
+        window.location.href = `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(productId)}`;
+    }
+};
 
   const applyFilters = (list) => {
     let result = list;
