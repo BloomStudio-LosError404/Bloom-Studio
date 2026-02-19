@@ -11,3 +11,4 @@ overlay.addEventListener('click', () => {
   sidebar.classList.remove('open');
   overlay.classList.remove('show');
 });
+
