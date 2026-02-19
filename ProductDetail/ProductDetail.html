@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="utf-8" />
@@ -12,154 +12,71 @@
   <link rel="stylesheet" href="/ProductDetail/ProductDetail.css">
   <link rel="stylesheet" href="../Layout/Header/style.css">
   <link rel="stylesheet" href="../Layout/Footer/style.css">
-  <title>Product Detail</title>
+
+  <title>Detalle del Producto</title>
 </head>
 
 <body>
 
-  <div id="appHeader"></div>
-
-
-  <main class="container">
-        <section class="product-view">
-            <div class="gallery">
-                <div class="thumbnails" id="thumbnails-container">
-                    </div>
-                <div class="main-image">
-                    <img id="main-product-img" src="" alt="Cargando...">
-                </div>
-            </div>
-
-            <div class="product-info">
-                <h1 id="product-name"></h1>
-                <p class="price" id="product-price"></p>
-                
-                <h3>Color</h3>
-                <div class="color-options" id="color-selector">
-                    </div>
-
-                <h3>Talla</h3>
-                <div class="size-options" id="size-selector">
-                    </div>
-
-                <div class="actions">
-                    <button id="btn-add-to-cart" class="btn-primary">Añadir al carrito</button>
-                </div>
-            </div>
-        </section>
-
-        <section class="details">
-            <h2 class="section-title">Detalles</h2>
-            <div class="description">
-                <h3 id="detail-title"></h3>
-                <p id="detail-description"></p>
-                <ul id="specs-list">
-                    </ul>
-            </div>
-        </section>
-
-        <section class="related">
-
-      <h2 class="related-header">Podrías estar interesado en</h2>
-
-      <div class="related-grid">
-
-
-
-        <div class="product-card">
-
-          <div class="card-img">
-
-            <img src="" alt="Tag">
-
-          </div>
-
-          <div class="card-info">
-
-            <h4></h4>
-
-            <p class="card-price"></p>
-
-
-
-          </div>
-
-        </div>
-
-
-
-        <div class="product-card">
-
-          <div class="card-img">
-
-            <img src="" alt="Invitaciones digitales">
-
-          </div>
-
-          <div class="card-info">
-
-            <h4></h4>
-
-            <p class="card-price"></p>
-
-
-
-          </div>
-
-        </div>
-
-
-
-        <div class="product-card">
-
-          <div class="card-img">
-
-            <img src="" alt="">
-
-          </div>
-
-          <div class="card-info">
-
-            <h4></h4>
-
-            <p class="card-price"></p>
-
-          </div>
-
-        </div>
-
-
-
-        <div class="product-card">
-
-          <div class="card-img">
-
-            <img src="" alt="">
-
-          </div>
-
-          <div class="card-info">
-
-            <h4></h4>
-
-            <div class="small-dots">
-
-              <span class="dot-s gray"></span><span class="dot-s black"></span>
-
-            </div>
-
-            <p class="card-price"></p>
-
-          </div>
-
-        </div>
-
-
-         </div>          
-        </section>
-    </main>
-
-
+<div id="appHeader"></div>
+
+<main class="container">
+
+  <section class="product-view">
+
+    <!-- Imagen -->
+    <div class="gallery">
+      <div class="main-image">
+        <img id="main-product-img" src="" alt="Producto">
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="product-info">
+
+      <p id="sku-producto" class="text-muted"></p>
+      <h1 id="nombre-producto"></h1>
+      <p class="price" id="precio-producto"></p>
+
+      <!-- COLOR -->
+      <h3>Color</h3>
+      <div class="color-options" id="color-selector"></div>
+      <p id="color-seleccionado" class="fw-bold"></p>
+      <p id="stock-color" class="fw-bold text-success"></p>
+
+      <!-- TALLA -->
+      <h3>Talla</h3>
+      <div class="size-options" id="size-selector"></div>
+      <p id="stock-talla" class="fw-bold text-success"></p>
+
+      <!-- CANTIDAD -->
+      <div class="quantity-selector">
+        <label>Cantidad:</label>
+        <input type="number" id="cantidad-selector" min="1" value="1">
+      </div>
+
+      <div class="actions">
+        <button id="btn-add-to-cart" class="btn-primary">
+          Añadir al carrito
+        </button>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- DETALLES -->
+<section class="details">
+  <h2 class="section-title">Detalles</h2>
+  <div class="description">
+    <h3 id="detail-title"></h3>
+    <p id="descripcion-producto"></p> <!-- 👈 AQUÍ queda -->
+    <ul id="specs-list"></ul>
+  </div>
+</section>
+
+</main>
+<div id="toast-container"></div>
   <div id="appFooter"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
@@ -173,7 +90,5 @@
  <script src="../Cart/Cart.js"></script>
   <script src="./ProductDetail.js"></script>
 
-
 </body>
-
 </html>

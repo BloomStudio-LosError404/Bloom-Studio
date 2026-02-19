@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashborad: Productos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Material+Icons+Round"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="./Style.css">
+</head>
+
+<body>
+
+  <button class="menu-btn" id="menuBtn">
+    <span class="material-icons-round">menu</span>
+  </button>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <nav>
+    <a href="../index.html">
+      <span class="material-icons-round">home</span>
+      <span class="text">Inicio</span>
+    </a>
+
+    <a href="../Dashboard/Administrador/admin.html">
+      <span class="material-icons-round">shopping_cart</span>
+      <span class="text">Tienda</span>
+    </a>
+
+    <a href="#">
+      <span class="material-icons-round">insert_chart</span>
+      <span class="text">Reportes</span>
+    </a>
+
+    <a href="#">
+      <span class="material-icons-round">dashboard</span>
+      <span class="text">Dashboard</span>
+    </a>
+
+    <a href="#">
+      <span class="material-icons-round">notifications</span>
+      <span class="text">Notificaciones</span>
+    </a>
+
+    <a href="#">
+      <span class="material-icons-round">settings</span>
+      <span class="text">Configuración</span>
+    </a>
+  </nav>
+
+  <a href="../index.html">
+    <span class="material-icons-round">logout</span>
+    <span class="text">Salir</span>
+  </a>
+</aside>
+
+ <main class="admin-main">
+
+    <!-- FORM PRODUCTO -->
+    <section class="producto-form-section">
+      <h2>Manager de Productos</h2>
+
+      <form id="formProducto" class="producto-form">
+
+        <div class="form-group">
+          <label>SKU</label>
+          <input type="text" id="skuProducto" required>
+        </div>
+
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" id="nombreProducto" required>
+        </div>
+
+        <div class="form-group">
+          <label>Descripción</label>
+          <input type="text" id="descripcionProducto" required>
+        </div>
+
+        <div class="form-group">
+          <label>Precio</label>
+          <input type="number" id="precioProducto" required>
+        </div>
+
+        <div class="form-group">
+          <label>Imagen</label>
+          <input type="file" id="imagenProducto" accept="image/*" required>
+        </div>
+
+        <button type="submit" class="btn-guardar">
+          Guardar Producto
+        </button>
+
+      </form>
+    </section>
+
+    <!-- LISTADO -->
+    <section>
+      <h2>Listado</h2>
+
+      <div class="producto-search">
+        <input type="text" id="buscadorProducto" placeholder="Buscar producto...">
+      </div>
+
+      <div id="contenedorProductos" class="productos-grid"></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- MODAL VARIANTES -->
+<div class="modal" id="modalVariantes">
+  <div class="modal-content">
+    <span class="close-modal" onclick="cerrarModalVariantes()">✖</span>
+    <h3>Gestionar Variante</h3>
+
+    <select id="selectTalla"></select>
+    <select id="selectColor"></select>
+
+    <input type="number" id="cantidadVariante" placeholder="Cantidad">
+
+    <button class="btn-guardar" onclick="guardarVariante()">
+      Guardar Variante
+    </button>
+  </div>
+</div>
+
+
+    <script src="./Script.js"></script>
+      <script src="./Endpoints.js"></script>
+</body>
+
+
+</html>

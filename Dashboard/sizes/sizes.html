@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashborad: Tallas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Material+Icons+Round"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="./Style.css">
+</head>
+
+<body>
+
+  <button class="menu-btn" id="menuBtn">
+    <span class="material-icons-round">menu</span>
+  </button>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <nav>
+    <a href="../index.html">
+      <span class="material-icons-round">home</span>
+      <span class="text">Inicio</span>
+    </a>
+
+    <a href="../Dashboard/Administrador/admin.html">
+      <span class="material-icons-round">shopping_cart</span>
+      <span class="text">Tienda</span>
+    </a>
+
+    <a href="#">
+      <span class="material-icons-round">insert_chart</span>
+      <span class="text">Reportes</span>
+    </a>
+
+    <a href="#">
+      <span class="material-icons-round">dashboard</span>
+      <span class="text">Dashboard</span>
+    </a>
+
+    <a href="#">
+      <span class="material-icons-round">notifications</span>
+      <span class="text">Notificaciones</span>
+    </a>
+
+    <a href="#">
+      <span class="material-icons-round">settings</span>
+      <span class="text">Configuración</span>
+    </a>
+  </nav>
+
+  <a href="../index.html">
+    <span class="material-icons-round">logout</span>
+    <span class="text">Salir</span>
+  </a>
+</aside>
+
+<!-- MAIN -->
+<main class="admin-main">
+
+  <!-- FORM -->
+  <section class="talla-form-section">
+    <h2>Manager de Tallas</h2>
+
+    <div class="talla-form">
+      <div class="form-group">
+        <label>Nueva Talla</label>
+        <input type="text" id="nombreTalla" maxlength="10" placeholder="Máx 10 caracteres">
+      </div>
+
+      <button id="btnGuardar" class="btn-guardar">
+        Guardar
+      </button>
+    </div>
+  </section>
+
+  <!-- LISTADO -->
+  <section class="products-list-section">
+    <h2>Listado de Tallas</h2>
+
+    <div class="talla-search">
+      <input type="text" id="buscadorTalla" placeholder="Buscar talla...">
+    </div>
+
+    <div id="contenedorTallas" class="tallas-grid"></div>
+  </section>
+
+</main>
+</div>
+
+<!-- MODAL ELIMINAR -->
+<div class="modal" id="modalEliminar">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h3>¿Seguro que deseas eliminar esta talla?</h3>
+    <button id="confirmarEliminar" class="btn btn-danger">Eliminar</button>
+  </div>
+</div>
+
+<!-- MODAL EDITAR -->
+<div class="modal" id="modalEditar">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h3>Actualizar Talla</h3>
+
+    <input type="text" id="editNombre" maxlength="10">
+    <select id="editEstatus">
+      <option value="true">Activa</option>
+      <option value="false">Inactiva</option>
+    </select>
+
+    <button id="confirmarEditar" class="btn btn-primary">
+      Guardar Cambios
+    </button>
+  </div>
+</div>
+
+
+
+
+    <script src="./Script.js"></script>
+      <script src="./Endpoints.js"></script>
+</body>
+
+
+</html>

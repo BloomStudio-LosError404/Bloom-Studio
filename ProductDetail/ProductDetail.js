@@ -1,132 +1,250 @@
-// Codigo del js para el carrito en la pagina de detalle de producto
+const API_PRODUCTO = "http://localhost:8080/api/v1/productos";
+const API_INVENTARIO = "http://localhost:8080/api/v1/inventario";
+const API_COLORES = "http://localhost:8080/api/colores";
 
-// 1. Definimos el producto que se muestra actualmente en la página
-// Nota: El ID debe ser único para que el carrito no se confunda
-const productoActual = {
-    id: 10,
-    nombre: "Duo en Tom & Jerry",
-    precio: 899,
-    img: "/img/Catalogo/Sudaderas/DuoTomJerry.png"
-};
+const params = new URLSearchParams(window.location.search);
+const productoId = Number(params.get("id"));
 
-// 2. Esperamos a que el DOM cargue
-document.addEventListener("DOMContentLoaded", () => {
-    // 2. Selección de Talla y Color (Lógica visual de la página)
-    let colorSeleccionado = null;
-    let tallaSeleccionada = null;
+let productoActual = null;
+let inventarioActual = [];
+let coloresAPI = [];
 
-    const colores = document.querySelectorAll("#color-selector .dot");
-    const tallas = document.querySelectorAll("#size-selector .pill");
+let colorSeleccionado = null;
+let tallaSeleccionada = null;
 
-    colores.forEach(dot => {
-        dot.addEventListener("click", () => {
-            colores.forEach(d => d.style.border = "none");
-            dot.style.border = "2px solid #000";
-            colorSeleccionado = dot.getAttribute("data-color");
-        });
-    });
-
-    tallas.forEach(pill => {
-        pill.addEventListener("click", () => {
-            tallas.forEach(p => { p.style.backgroundColor = ""; p.style.color = ""; });
-            pill.style.backgroundColor = "#ffc8a2";
-            pill.style.color = "white";
-            tallaSeleccionada = pill.getAttribute("data-size");
-        });
-    });
-
-    // --- Botón Añadir al Carrito ---
-
-    if (btnAgregar) {
-        btnAgregar.addEventListener("click", () => {
-            // VALIDACIÓN: Si no ha seleccionado ambos, avisamos
-            if (!colorSeleccionado || !tallaSeleccionada) {
-                alert("Por favor, selecciona una talla y un color antes de continuar.");
-                return;
-            }
-
-            const productoParaCarrito = {
-                id: 10, 
-                nombre: `Duo Tom & Jerry (${colorSeleccionado} - ${tallaSeleccionada})`,
-                precio: 899,
-                img: "/img/Catalogo/Sudaderas/DuoTomJerry.png",
-                color: colorSeleccionado,
-                talla: tallaSeleccionada
-            };
-
-            agregarAlCarrito(productoParaCarrito);
-            alert(`¡Agregado! Color: ${colorSeleccionado}, Talla: ${tallaSeleccionada}`);
-            actualizarNumeroCarrito();
-        });
-    }
-    
-    actualizarNumeroCarrito();
+const mxn = new Intl.NumberFormat("es-MX", {
+  style: "currency",
+  currency: "MXN"
 });
 
-// Mantén tus funciones agregarAlCarrito() y actualizarNumeroCarrito() igual que antes
+document.addEventListener("DOMContentLoaded", init);
 
+async function init() {
+  if (!productoId) return alert("ID inválido");
 
+  await cargarProducto();
+  await cargarColores();
+  await cargarInventario();
+  renderColores();
 
-
-// 1.  "Base de Datos" 
-const baseDeDatos = [
-    { id: 1, nombre: "Veloziraptor", precio: 111111, img: "/img/productos/1.jpg", descripcion: "Descripción de la Veloziraptor..." },
-    { id: 10, nombre: "Duo en Tom & Jerry", precio: 899, img: "/img/Catalogo/Sudaderas/DuoTomJerry.png", descripcion: "Dúo de sudaderas icónicas..." },
-    // ... agrega el resto de tus productos aquí
-];
-
-document.addEventListener("DOMContentLoaded", () => {
-    // 2. Obtener el ID de la URL
-    const queryParams = new URLSearchParams(window.location.search);
-    const idProducto = parseInt(queryParams.get("id"));
-
-    // 3. Buscar el producto en la base de datos
-    const producto = baseDeDatos.find(p => p.id === idProducto);
-
-    if (producto) {
-        cargarDatosProducto(producto);
-    } else {
-        console.error("Producto no encontrado");
-        // Opcional: redireccionar a la tienda si no existe el ID
-    }
-});
-
-// 4. Función para inyectar la información en el HTML
-function cargarDatosProducto(producto) {
-    document.getElementById("nombre-producto").innerText = producto.nombre;
-    document.getElementById("precio-producto").innerText = `$${producto.precio}.00`;
-    document.getElementById("img-producto").src = producto.img;
-    
-    // Si tienes un contenedor de descripción:
-    if(document.getElementById("descripcion-producto")) {
-        document.getElementById("descripcion-producto").innerText = producto.descripcion;
-    }
-
-    // Configurar el botón de añadir al carrito con el producto encontrado
-    configurarBotonCarrito(producto);
+  document
+    .getElementById("btn-add-to-cart")
+    .addEventListener("click", agregarAlCarritoHandler);
 }
 
-function configurarBotonCarrito(producto) {
-    const btnAgregar = document.getElementById("btn-add-to-cart");
-    btnAgregar.onclick = () => {
-        // Aquí recuperas la talla y color que seleccionó el usuario
-        const talla = document.querySelector(".pill.selected")?.dataset.size;
-        const color = document.querySelector(".dot.selected")?.dataset.color;
+/* ================= PRODUCTO ================= */
 
-        if (!talla || !color) {
-            alert("Selecciona talla y color");
-            return;
-        }
+async function cargarProducto() {
+  const res = await fetch(`${API_PRODUCTO}/${productoId}`);
+  productoActual = await res.json();
 
-        const productoFinal = {
-            ...producto,
-            nombre: `${producto.nombre} (${color} - ${talla})`,
-            talla,
-            color
-        };
+  document.getElementById("nombre-producto").textContent =
+    productoActual.nombre;
 
-        agregarAlCarrito(productoFinal);
-        actualizarNumeroCarrito();
-        alert("¡Agregado al carrito!");
-    };
+  document.getElementById("sku-producto").textContent =
+    "SKU: " + productoActual.sku;
+
+  document.getElementById("precio-producto").textContent =
+    mxn.format(productoActual.precio);
+
+  document.getElementById("detail-title").textContent =
+    productoActual.nombre;
+
+  document.getElementById("descripcion-producto").textContent =
+    productoActual.descripcion || "";
+
+  document.getElementById("main-product-img").src =
+    productoActual.imgUrl;
+
+  if (productoActual.categoriaNombres?.length) {
+    document.getElementById("specs-list").innerHTML =
+      productoActual.categoriaNombres
+        .map(c => `<li><strong>Categoría:</strong> ${c}</li>`)
+        .join("");
+  }
+}
+
+/* ================= COLORES DESDE API ================= */
+
+async function cargarColores() {
+  const res = await fetch(API_COLORES);
+  coloresAPI = await res.json();
+}
+
+/* ================= INVENTARIO ================= */
+
+async function cargarInventario() {
+  const res = await fetch(`${API_INVENTARIO}/producto/${productoId}`);
+  inventarioActual = await res.json();
+}
+function mostrarToast(mensaje) {
+
+  const container = document.getElementById("toast-container");
+
+  const toast = document.createElement("div");
+  toast.className = "toast-success";
+  toast.textContent = mensaje;
+
+  container.appendChild(toast);
+
+  // Activar animación
+  setTimeout(() => {
+    toast.classList.add("show");
+  }, 50);
+
+  // Desaparecer después de 3 segundos
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 400);
+  }, 3000);
+}
+/* ================= RENDER COLORES ================= */
+
+function renderColores() {
+
+  const container = document.getElementById("color-selector");
+  container.innerHTML = "";
+
+  const coloresConStock = [
+    ...new Set(
+      inventarioActual
+        .filter(i => i.cantidad > 0)
+        .map(i => i.nombreColor)
+    )
+  ];
+
+  if (coloresConStock.length === 0) return;
+
+  coloresConStock.forEach((nombreColor, index) => {
+
+    const colorObj = coloresAPI.find(c =>
+      c.nombreColor === nombreColor
+    );
+
+    if (!colorObj) return;
+
+    const dot = document.createElement("div");
+    dot.className = "color-dot";
+    dot.title = nombreColor;
+
+    dot.style.backgroundColor = colorObj.codigoHex;
+
+    dot.addEventListener("click", () => {
+      seleccionarColor(nombreColor, dot);
+    });
+
+    container.appendChild(dot);
+
+    // 🔥 Selección automática del primer color
+    if (index === 0) {
+      seleccionarColor(nombreColor, dot);
+    }
+  });
+}
+
+/* ================= SELECCIONAR COLOR ================= */
+
+function seleccionarColor(nombreColor, elementoDot) {
+
+  colorSeleccionado = nombreColor;
+  tallaSeleccionada = null;
+
+  document.getElementById("color-seleccionado").textContent =
+    `Color: ${nombreColor}`;
+
+  document.querySelectorAll(".color-dot")
+    .forEach(d => d.classList.remove("active"));
+
+  elementoDot.classList.add("active");
+
+  renderTallas(nombreColor);
+}
+
+/* ================= TALLAS ================= */
+
+function renderTallas(color) {
+
+  const container = document.getElementById("size-selector");
+  container.innerHTML = "";
+
+  const tallas = inventarioActual
+    .filter(i => i.nombreColor === color);
+
+  tallas.forEach(item => {
+
+    const pill = document.createElement("div");
+    pill.className = "size-pill";
+    pill.textContent = item.nombreTalla;
+
+    if (item.cantidad <= 0) {
+      pill.classList.add("disabled");
+      return;
+    }
+
+    pill.addEventListener("click", () => {
+
+      tallaSeleccionada = item.nombreTalla;
+
+      document.getElementById("stock-talla").textContent =
+        `Stock disponible en talla ${item.nombreTalla}: ${item.cantidad}`;
+
+      // 🔥 Bloquear cantidad según stock
+      const inputCantidad =
+        document.getElementById("cantidad-selector");
+
+      inputCantidad.max = item.cantidad;
+      inputCantidad.value = 1;
+
+      document.querySelectorAll(".size-pill")
+        .forEach(p => p.classList.remove("active"));
+
+      pill.classList.add("active");
+    });
+
+    container.appendChild(pill);
+  });
+}
+
+/* ================= CARRITO ================= */
+
+function agregarAlCarritoHandler() {
+
+  if (!colorSeleccionado || !tallaSeleccionada)
+    return alert("Selecciona color y talla");
+
+  const inputCantidad =
+    document.getElementById("cantidad-selector");
+
+  let cantidad = Number(inputCantidad.value);
+
+  const variante = inventarioActual.find(i =>
+    i.nombreColor === colorSeleccionado &&
+    i.nombreTalla === tallaSeleccionada
+  );
+
+  if (!variante) return alert("Variante no encontrada");
+
+  if (cantidad > variante.cantidad) {
+    cantidad = variante.cantidad;
+    inputCantidad.value = variante.cantidad;
+  }
+
+  const productoFinal = {
+    id: `${productoActual.id}-${colorSeleccionado}-${tallaSeleccionada}`,
+    productoId: productoActual.id,
+    nombre: productoActual.nombre,
+    precio: productoActual.precio,
+    imagen: productoActual.imgUrl,
+    color: colorSeleccionado,
+    talla: tallaSeleccionada,
+    cantidad: cantidad
+  };
+
+  agregarAlCarrito(productoFinal);
+
+  if (typeof window.actualizarNumeroCarrito === "function") {
+    window.actualizarNumeroCarrito();
+  }
+
+  mostrarToast("Producto agregado al carrito");
 }

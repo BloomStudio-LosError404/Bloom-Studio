@@ -1,54 +1,56 @@
 // catalogLoader.js
 import { DATA_SOURCE_URL } from "./config.js";
 
-export const loadCatalog = async () => {
+export async function loadCatalog() {
   try {
-    const res = await fetch(DATA_SOURCE_URL, { cache: "no-store" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const response = await fetch(DATA_SOURCE_URL);
 
-    const data = await res.json();
+    if (!response.ok) {
+      throw new Error(`Error HTTP: ${response.status}`);
+    }
 
-    // Soportamos ambos formatos:
-    // 1) Backend (Spring) devuelve arreglo directo: [ { ... }, { ... } ]
-    // 2) Formato previo local: { catalog, products }
-    const raw = Array.isArray(data) ? data : Array.isArray(data.products) ? data.products : [];
+    const data = await response.json();
 
-    // Normaliza a la estructura que consume storeView.js
-    // (si el backend ya devuelve los nombres en inglés, esto no rompe)
-    const products = raw.map((p) => {
-      const isEs =
-        p && ("nombre" in p || "precio" in p || "imagen" in p || "colores" in p || "tallas" in p);
+   
+    const products = data.map((producto) => ({
+      id: producto.id,
+      sku: producto.sku,
 
-      if (!isEs) return p;
+      name: producto.nombre,
+      description: producto.descripcion,
 
-      const categories = Array.isArray(p.categorias) ? p.categorias : [];
+      category: producto.categoria,
+      categories: producto.categorias || [],
 
-      return {
-        id: p.id,
-        sku: p.sku,
-        name: p.nombre,
-        description: p.descripcion,
-        category: p.categoria || categories[0] || "",
-        categories,
-        colors: Array.isArray(p.colores) ? p.colores : [],
-        sizes: Array.isArray(p.tallas) ? p.tallas : [],
-        price: p.precio,
-        rating: p.rating ?? 0,
-        reviews: p.reviews ?? 0,
-        stockTotal: p.stockTotal ?? 0,
-        tags: Array.isArray(p.etiquetas) ? p.etiquetas : [],
-        image: {
-          src: p.imagen?.src || "",
-          alt: p.imagen?.alt || p.nombre || "Producto"
-        }
-      };
-    });
+      colors: producto.colores || [],
+      sizes: producto.tallas || [],
 
-    return { catalog: Array.isArray(data) ? null : data.catalog || null, products };
-  } catch (err) {
-    console.error("No se pudo cargar el catálogo:", err);
-    return { catalog: null, products: [] };
+      price: producto.precio,
+
+      rating: producto.rating ?? 0,
+      reviews: producto.reviews ?? 0,
+
+      stockTotal: producto.stockTotal ?? 0,
+
+      tags: producto.etiquetas || [],
+
+      image: {
+        src: producto.imagen?.src || "",
+        alt: producto.imagen?.alt || producto.nombre
+      }
+    }));
+
+    return {
+      catalog: {},
+      products
+    };
+
+  } catch (error) {
+    console.error("Error cargando catálogo:", error);
+    return {
+      catalog: {},
+      products: []
+    };
   }
-};
-
+}
 

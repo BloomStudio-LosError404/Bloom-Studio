@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detalle Producto</title>
+<link rel="stylesheet" href="./Styleproducts.css">
+</head>
+<body>
+
+<div class="layout">
+  <div class="admin-main">
+
+    <!-- BOTÓN VOLVER -->
+    <div class="volver-container">
+      <button class="btn-volver" onclick="volverAtras()">
+        ← Volver
+      </button>
+    </div>
+
+    <h2 id="tituloProducto"></h2>
+
+    <!-- ===== INFO PRODUCTO ===== -->
+    <section class="producto-card">
+
+      <img id="imagenProducto" class="producto-img">
+
+      <div class="producto-info">
+        <p><strong>SKU:</strong> <span id="skuProducto"></span></p>
+        <p><strong>Precio:</strong> <span id="precioProducto"></span></p>
+        <p><strong>Estado:</strong> <span id="estadoProducto"></span></p>
+      </div>
+
+      <div class="acciones-edicion">
+        <button class="btn-guardar" onclick="abrirModalEditar()">
+          Editar Producto
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ===== INVENTARIO ===== -->
+    <section class="producto-form-section">
+      <h3>Agregar Variante</h3>
+
+      <div class="producto-form">
+
+        <div class="form-group">
+          <label>Color</label>
+          <select id="selectColor"></select>
+        </div>
+
+        <div class="form-group">
+          <label>Talla</label>
+          <select id="selectTalla"></select>
+        </div>
+
+        <div class="form-group">
+          <label>Cantidad</label>
+          <input type="number" id="cantidadVariante" min="1">
+        </div>
+
+        <button class="btn-guardar" onclick="guardarVariante()">
+          Agregar Stock
+        </button>
+
+      </div>
+
+      <h4 id="stockTotal"></h4>
+
+      <div class="tabla-wrapper">
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Color</th>
+              <th>Talla</th>
+              <th>Cantidad</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaInventario"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== CATEGORIAS ===== -->
+    <section class="producto-form-section">
+      <h3>Categorías</h3>
+
+      <div class="producto-form">
+        <select id="selectCategoria"></select>
+        <button class="btn-mini btn-add" onclick="insertarCategoria()">
+          Agregar
+        </button>
+      </div>
+
+      <div class="tabla-wrapper">
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Categoría</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaCategorias"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== ETIQUETAS ===== -->
+    <section class="producto-form-section">
+      <h3>Etiquetas</h3>
+
+      <div class="producto-form">
+        <select id="selectEtiqueta"></select>
+        <button class="btn-mini btn-add" onclick="insertarEtiqueta()">
+          Agregar
+        </button>
+      </div>
+
+      <div class="tabla-wrapper">
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Etiqueta</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaEtiquetas"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ===== POPUP EDITAR ===== -->
+<div class="popup-overlay" id="modalEditar">
+  <div class="popup-card">
+    <div class="popup-header">
+      <h3>Editar Producto</h3>
+      <button class="popup-close" onclick="cerrarModal()">x</button>
+    </div>
+
+    <div class="popup-body">
+      <div class="popup-group">
+        <label>Nombre</label>
+        <input type="text" id="editNombre">
+      </div>
+
+      <div class="popup-group">
+        <label>Precio</label>
+        <input type="number" id="editPrecio" step="0.01">
+      </div>
+      <div class="popup-group">
+  <label>Cambiar Imagen</label>
+  <input type="file" id="editImagen" accept="image/*">
+</div>
+      <div class="popup-group">
+        <label>Descripción</label>
+        <input type="text" id="editDescripcion">
+      </div>
+    </div>
+
+
+    <div class="popup-footer">
+      <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-save" onclick="guardarEdicion()">Guardar Cambios</button>
+    </div>
+  </div>
+</div>
+
+<script src="producto-detalle.js"></script>
+</body>
+</html>
