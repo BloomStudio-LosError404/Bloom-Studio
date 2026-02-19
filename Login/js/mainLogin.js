@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
             icon: icon,
             confirmButtonColor: '#4a3c6b',
             customClass: {
-                popup: 'rounded-4', // Bordes redondeados
+                popup: 'rounded-4',
                 confirmButton: 'rounded-pill px-4'
             }
         });
@@ -31,73 +31,144 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // URL Base del Backend en localhost
+    const API_URL = "http://localhost:8080/api";
+
     // --- LÓGICA DE REGISTRO ---
-    const regForm = document.getElementById('register-form');
-    if (regForm) {
-        regForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('name-reg').value;
-            const email = document.getElementById('email-reg').value;
-            const pass = document.getElementById('pass-reg').value;
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            
-            if (users.find(u => u.email === email)) {
-                return Swal.fire({
-                    icon: 'error',
-                    title: '¡Oops!',
-                    text: 'Este correo ya está registrado.',
-                    confirmButtonColor: '#4a3c6b'
-                });
-            }
+        const nombre = document.getElementById('name-reg').value;
+        const email = document.getElementById('email-reg').value;
+        const password = document.getElementById('pass-reg').value;
 
-            users.push({ name, email, pass });
-            localStorage.setItem('users', JSON.stringify(users));
+        const nuevoUsuario = {
+            nombre: nombre,
+            email: email,
+            contrasena: password
+            // No mandamos rol, el backend asigna CLIENTE por defecto.
+        };
 
-            Swal.fire({
-                icon: 'success',
-                title: '¡Bienvenido!',
-                text: 'Cuenta creada con éxito.',
-                showConfirmButton: false,
-                timer: 2000 // Se cierra sola tras 2 segundos
+        try {
+            const response = await fetch(`${API_URL}/v1/usuarios`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(nuevoUsuario)
             });
 
-            regForm.reset();
-            cardInner.classList.remove('is-flipped');
-        });
-    }
-
-    // --- LÓGICA DE LOGIN ---
-    const loginForm = document.getElementById('login-form');
-    if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('email-login').value;
-            const pass = document.getElementById('pass-login').value;
-            
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            const userFound = users.find(u => u.email === email && u.pass === pass);
-
-            if (userFound) {
+            if (response.ok) {
                 Swal.fire({
                     icon: 'success',
-                    title: `¡Hola, ${userFound.name}!`,
-                    text: 'Iniciando sesión...',
-                    showConfirmButton: false,
-                    timer: 1500
+                    title: 'Cuenta creada',
+                    text: 'Ahora puedes iniciar sesión',
+                    confirmButtonText: 'Ir al Login'
                 }).then(() => {
-                    window.location.href = '../Shop/shop.html';
+                    // Simular click para voltear la tarjeta al login
+                    document.getElementById('btn-to-login').click();
+                    // O recargar: window.location.reload();
                 });
             } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Acceso denegado',
-                    text: 'Credenciales incorrectas.',
-                    confirmButtonColor: '#4a3c6b'
-                });
+                // Si el correo ya existe (409 Conflict)
+                const errorData = await response.json(); // El backend devuelve un JSON de error bonito
+                Swal.fire('Error', errorData.message || 'No se pudo registrar', 'error');
             }
+
+        } catch (error) {
+            Swal.fire('Error', 'Fallo de conexión', 'error');
+        }
+    });
+
+    // --- LOGIN ---
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email-login').value;
+        const password = document.getElementById('pass-login').value;
+
+        try {
+            const response = await fetch(`${API_URL}/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                // 1. GUARDAR LA "PULSERA VIP" (TOKEN)
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('email', data.email);
+                localStorage.setItem('rol', data.role); // ADMIN o CLIENTE
+                localStorage.setItem('nombre', data.nombre);
+
+                // 2. REDIRECCIÓN SEGÚN ROL (CON EL NOMBRE EN LA ALERTA)
+                Swal.fire({
+                    icon: 'success',
+                    title: `¡Hola, ${data.nombre}!`, 
+                    text: 'Iniciando sesión...',
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(() => {
+                    if (data.role === 'ADMIN' || data.role === 'ROLE_ADMIN') {
+                        window.location.href = '../../Administrator/admin.html';
+                    } else {
+                        window.location.href = '../../index.html';
+                    }
+                });
+
+            } else {
+                // Error de credenciales (401)
+                Swal.fire('Error', 'Usuario o contraseña incorrectos', 'error');
+            }
+
+        } catch (error) {
+            console.error(error);
+            Swal.fire('Error', 'No se pudo conectar con el servidor', 'error');
+        }
+    });
+
+    // Lógica para recuperar contraseña
+    document.querySelector('.forgot-password').addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        const { value: email } = await Swal.fire({
+            title: 'Recuperar Contraseña',
+            input: 'email',
+            inputLabel: 'Ingresa tu correo registrado',
+            inputPlaceholder: 'correo@ejemplo.com',
+            showCancelButton: true,
+            confirmButtonText: 'Enviar instrucciones',
+            showLoaderOnConfirm: true,
+            preConfirm: (email) => {
+                // Petición al Backend
+                return fetch('http://localhost:8080/api/auth/recuperar-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        return response.text();
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(`Error: ${error}`);
+                    });
+            },
+            allowOutsideClick: () => !Swal.isLoading()
         });
-    }
+
+        if (email) {
+            Swal.fire({
+                title: '¡Enviado!',
+                text: 'Si el correo existe, recibirás un enlace en breve.',
+                icon: 'success'
+            });
+        }
+    });
 });

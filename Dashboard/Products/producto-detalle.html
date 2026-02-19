@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Detalle Producto</title>
-<link rel="stylesheet" href="Styleproducts.css">
+<link rel="stylesheet" href="./Styleproducts.css">
 </head>
 <body>
 
@@ -139,7 +139,7 @@
   <div class="popup-card">
     <div class="popup-header">
       <h3>Editar Producto</h3>
-      <button class="popup-close" onclick="cerrarModal()">×</button>
+      <button class="popup-close" onclick="cerrarModal()">x</button>
     </div>
 
     <div class="popup-body">
@@ -152,12 +152,16 @@
         <label>Precio</label>
         <input type="number" id="editPrecio" step="0.01">
       </div>
-
+      <div class="popup-group">
+  <label>Cambiar Imagen</label>
+  <input type="file" id="editImagen" accept="image/*">
+</div>
       <div class="popup-group">
         <label>Descripción</label>
         <input type="text" id="editDescripcion">
       </div>
     </div>
+
 
     <div class="popup-footer">
       <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
