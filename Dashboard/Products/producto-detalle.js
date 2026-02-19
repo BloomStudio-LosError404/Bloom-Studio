@@ -2,8 +2,8 @@ const API_PRODUCTO = "http://localhost:8080/api/v1/productos";
 const API_INVENTARIO = "http://localhost:8080/api/v1/inventario";
 const API_COLORES = "http://localhost:8080/api/colores/activas";
 const API_TALLAS = "http://localhost:8080/api/tallas/activas";
-const API_CATEGORIAS = "http://localhost:8080/api/v1/categories";
-const API_ETIQUETAS = "http://localhost:8080/api/v1/etiquetas";
+const API_CATEGORIAS = "http://localhost:8080/api/v1/categories/activas";
+const API_ETIQUETAS = "http://localhost:8080/api/v1/etiquetas/activas";
 
 const params = new URLSearchParams(window.location.search);
 const productoId = Number(params.get("id"));
