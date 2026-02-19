@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!grid) return;
 
   try {
-    const products = await getProducts({ limit: 4 });
+    const products = await getProducts({ limit: 4 , tag: "Nuevo" });
     renderProducts(grid, products);
   } catch (err) {
     console.error(err);
