@@ -60,72 +60,76 @@
   </a>
 </aside>
 
-<!-- MAIN -->
-<main class="admin-main">
+    <!-- MAIN -->
+    <main class="admin-main">
 
-  <section class="color-form-section">
-    <h2>Manager de Colores</h2>
+      <!-- FORM -->
+      <section class="color-form-section">
+        <h2>Manager de Colores</h2>
 
-    <div class="color-form">
-      <div class="form-group">
-        <label>Nombre del Color</label>
-        <input type="text" id="nombreColor" maxlength="50" placeholder="Máx 50 caracteres" required>
-      </div>
+        <div class="color-form">
+          <div class="form-group">
+            <label>Nombre del Color</label>
+            <input type="text" id="nombreColor" maxlength="50"
+              placeholder="Máx 50 caracteres">
+          </div>
 
-      <div class="form-group">
-        <label>Código HEX</label>
-        <input type="color" id="codigoHex">
-      </div>
+          <div class="form-group">
+            <label>Código HEX</label>
+            <input type="color" id="codigoHex">
+          </div>
 
-      <button id="btnGuardarColor" class="btn-guardar">
-        Guardar
+          <button id="btnGuardarColor" class="btn-guardar">
+            Guardar
+          </button>
+        </div>
+      </section>
+
+      <!-- LISTADO -->
+      <section>
+        <h2>Listado de Colores</h2>
+
+        <div class="color-search">
+          <input type="text" id="buscadorColor"
+            placeholder="Buscar color...">
+        </div>
+
+        <div id="contenedorColores" class="colores-grid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL ELIMINAR -->
+  <div class="modal" id="modalEliminarColor">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>¿Seguro que deseas eliminar este color?</h3>
+      <button id="confirmarEliminarColor" class="btn btn-danger">
+        Eliminar
       </button>
     </div>
-  </section>
+  </div>
 
-  <section class="products-list-section">
-    <h2>Listado de Colores</h2>
+  <!-- MODAL EDITAR -->
+  <div class="modal" id="modalEditarColor">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Actualizar Color</h3>
 
-    <div class="color-search">
-      <input type="text" id="buscadorColor" placeholder="Buscar color...">
+      <input type="text" id="editNombreColor" maxlength="50">
+      <input type="color" id="editCodigoHex">
+
+      <select id="editEstatusColor">
+        <option value="true">Activo</option>
+        <option value="false">Inactivo</option>
+      </select>
+
+      <button id="confirmarEditarColor" class="btn btn-primary">
+        Guardar Cambios
+      </button>
     </div>
-
-    <div id="contenedorColores" class="colores-grid"></div>
-  </section>
-
-</main>
-</div>
-
-<!-- MODAL ELIMINAR -->
-<div class="modal" id="modalEliminarColor">
-  <div class="modal-content">
-    <span class="close-modal">&times;</span>
-    <h3>¿Seguro que deseas eliminar este color?</h3>
-    <button id="confirmarEliminarColor" class="btn btn-danger">Eliminar</button>
   </div>
-</div>
-
-<!-- MODAL EDITAR -->
-<div class="modal" id="modalEditarColor">
-  <div class="modal-content">
-    <span class="close-modal">&times;</span>
-    <h3>Actualizar Color</h3>
-
-    <input type="text" id="editNombreColor" maxlength="10">
-    <input type="color" id="editCodigoHex">
-    <select id="editEstatusColor">
-      <option value="true">Activo</option>
-      <option value="false">Inactivo</option>
-    </select>
-
-    <button id="confirmarEditarColor" class="btn btn-primary">
-      Guardar Cambios
-    </button>
-  </div>
-</div>
-
-
-
 
     <script src="./Script.js"></script>
       <script src="./Endpoints.js"></script>
