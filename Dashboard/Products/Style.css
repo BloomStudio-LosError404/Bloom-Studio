@@ -18,7 +18,8 @@ body {
   overflow: hidden;
 }
 
-/* ===== SIDEBAR (NO MODIFICADA) ===== */
+
+/* ===== SIDEBAR ===== */
 .sidebar {
   width: 220px;
   background: linear-gradient(180deg, #F9D1D1, #D4C1EC, #B4A5E4);
@@ -44,7 +45,7 @@ body {
   padding: 12px 24px;
   color: white;
   text-decoration: none;
-  opacity: 0.75;
+  opacity: 0.8;
   transition: all 0.25s ease;
 }
 
@@ -55,15 +56,15 @@ body {
   transform: scale(1.05);
 }
 
+.sidebar .material-icons-round {
+  font-size: 22px;
+}
+
 .sidebar .text {
   font-size: 14px;
   font-weight: 500;
-  white-space: nowrap;
 }
 
-.sidebar > a {
-  margin-bottom: 12px;
-}
 
 /* ===== MAIN ===== */
 .admin-main {

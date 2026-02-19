@@ -21,29 +21,35 @@ btnGuardar.addEventListener("click", async () => {
     return;
   }
 
-  const response = await fetch(API_BASE, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      nombreEtiqueta: nombre,
-      estatus: true
-    })
-  });
+  try {
+    const response = await fetch(API_BASE, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nombreEtiqueta: nombre,
+        estatus: true
+      })
+    });
 
-  if (!response.ok) {
+    if (!response.ok) throw new Error();
+
+    inputNombre.value = "";
+    cargarEtiquetas();
+
+  } catch (error) {
     alert("Error al crear etiqueta");
-    return;
   }
-
-  inputNombre.value = "";
-  cargarEtiquetas();
 });
 
 /* ================= CARGAR ================= */
 async function cargarEtiquetas() {
-  const res = await fetch(API_BASE);
-  listaEtiquetas = await res.json();
-  renderEtiquetas(listaEtiquetas);
+  try {
+    const res = await fetch(API_BASE);
+    listaEtiquetas = await res.json();
+    renderEtiquetas(listaEtiquetas);
+  } catch (error) {
+    console.error("Error cargando etiquetas:", error);
+  }
 }
 
 /* ================= RENDER ================= */
@@ -53,7 +59,7 @@ function renderEtiquetas(etiquetas) {
 
   etiquetas.forEach(et => {
 
-    const id = et.id ?? et.idEtiqueta;
+    const id = et.id_etiqueta; // 🔥 ESTE ES EL ID CORRECTO
 
     const card = document.createElement("div");
     card.className = `categoria-card ${
@@ -71,12 +77,12 @@ function renderEtiquetas(etiquetas) {
     const btnEditar = document.createElement("button");
     btnEditar.className = "btn btn-primary";
     btnEditar.textContent = "Editar";
-    btnEditar.addEventListener("click", () => abrirEditar(et, id));
+    btnEditar.onclick = () => abrirEditar(et, id);
 
     const btnEliminar = document.createElement("button");
     btnEliminar.className = "btn btn-danger";
     btnEliminar.textContent = "Eliminar";
-    btnEliminar.addEventListener("click", () => abrirEliminar(id));
+    btnEliminar.onclick = () => abrirEliminar(id);
 
     actions.appendChild(btnEditar);
     actions.appendChild(btnEliminar);
@@ -109,18 +115,20 @@ document.getElementById("confirmarEliminarCategoria")
 
   if (!etiquetaSeleccionadaId) return;
 
-  const response = await fetch(`${API_BASE}/${etiquetaSeleccionadaId}`, {
-    method: "DELETE"
-  });
+  try {
+    const response = await fetch(`${API_BASE}/${etiquetaSeleccionadaId}`, {
+      method: "DELETE"
+    });
 
-  if (!response.ok) {
+    if (!response.ok) throw new Error();
+
+    modalEliminar.style.display = "none";
+    etiquetaSeleccionadaId = null;
+    cargarEtiquetas();
+
+  } catch (error) {
     alert("Error al eliminar");
-    return;
   }
-
-  modalEliminar.style.display = "none";
-  etiquetaSeleccionadaId = null;
-  cargarEtiquetas();
 });
 
 /* ================= EDITAR ================= */
@@ -151,23 +159,28 @@ document.getElementById("confirmarEditarCategoria")
     return;
   }
 
-  const response = await fetch(`${API_BASE}/${etiquetaSeleccionadaId}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      nombreEtiqueta: nuevoNombre,
-      estatus: nuevoEstatus
-    })
-  });
+  try {
+    const response = await fetch(
+      `${API_BASE}/editar/${etiquetaSeleccionadaId}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombreEtiqueta: nuevoNombre,
+          estatus: nuevoEstatus
+        })
+      }
+    );
 
-  if (!response.ok) {
+    if (!response.ok) throw new Error();
+
+    modalEditar.style.display = "none";
+    etiquetaSeleccionadaId = null;
+    cargarEtiquetas();
+
+  } catch (error) {
     alert("Error al actualizar");
-    return;
   }
-
-  modalEditar.style.display = "none";
-  etiquetaSeleccionadaId = null;
-  cargarEtiquetas();
 });
 
 /* ================= CERRAR MODALES ================= */
