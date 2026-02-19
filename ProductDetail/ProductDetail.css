@@ -274,4 +274,57 @@ main .container {
 }
 
 
+#product-detail-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+.main-detail img {
+    max-width: 400px;
+    width: 100%;
+}
+.price {
+    font-size: 2rem;
+    color: #333;
+    font-weight: bold;
+}
+.related-card {
+    border: 1px solid #eee;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.related-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
 
+/* ... (Todo tu CSS anterior está bien, añade esto al final) ... */
+
+.dot.active {
+    border: 3px solid var(--dark-blue);
+    transform: scale(1.2);
+}
+
+.pill.active {
+    background: var(--dark-blue);
+    color: white;
+}
+
+/* Mejora del botón para que resalte */
+.btn-primary {
+    background: var(--dark-blue);
+    color: white;
+    width: 100%;
+    padding: 18px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(74, 74, 106, 0.3);
+}
+
+.product-info h3 {
+    font-size: 1.1rem;
+    margin-top: 20px;
+    color: var(--dark-blue);
+}
