@@ -1,4 +1,6 @@
 
+const API_URL = "http://localhost:8080/api/pedidos";
+
 document.documentElement.classList.add("layout-loading");
 
 const LAYOUT = {
@@ -90,8 +92,113 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// Función carrito
+// Actualizar carrito
 window.actualizarNumeroCarrito = function() {
+    const elContador = document.getElementById("cuenta-carrito");
+    const memoria = JSON.parse(localStorage.getItem("Articulos")) || [];
+    const cuenta = memoria.reduce((acum, current) => acum + current.cantidad, 0);
+
+    if (elContador) {
+        elContador.innerText = cuenta;
+    } else {
+        console.warn("Contador no encontrado en el DOM.");
+    }
+};
+
+console.log("TOKEN:", localStorage.getItem("token"));
+//  Agregar producto 
+window.agregarAlCarrito = async function(producto) {
+    let memoria = JSON.parse(localStorage.getItem("Articulos")) || [];
+    const indiceProducto = memoria.findIndex(item => item.id === producto.id);
+
+    if (indiceProducto === -1) {
+        memoria.push({ ...producto, cantidad: 1 });
+    } else {
+        memoria[indiceProducto].cantidad++;
+    }
+
+
+    localStorage.setItem("Articulos", JSON.stringify(memoria));
+    window.actualizarNumeroCarrito();
+
+    try {
+       await fetch(`${API_URL}/cart/add`, {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+    },
+    body: JSON.stringify({
+        idInventario: producto.id,
+        cantidad: 1
+    })
+});
+
+    } catch (error) {
+        console.error("Error de red al sincronizar suma:", error);
+    }
+};
+window.restarAlCarrito = async function(producto) {
+    let memoria = JSON.parse(localStorage.getItem("Articulos")) || [];
+    const indiceProducto = memoria.findIndex(item => item.id === producto.id);
+
+    if (indiceProducto !== -1) {
+        if (memoria[indiceProducto].cantidad > 1) {
+            memoria[indiceProducto].cantidad--;
+        } else {
+            memoria.splice(indiceProducto, 1);
+        }
+
+        localStorage.setItem("Articulos", JSON.stringify(memoria));
+        window.actualizarNumeroCarrito();
+
+
+        try {
+           await fetch(`${API_URL}/cart/remove`, {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+    },
+    body: JSON.stringify({
+        idInventario: producto.id
+    })
+});
+
+        } catch (error) {
+            console.error("Error de red al sincronizar resta:", error);
+        }
+    }
+};
+
+// Cargar carrito al iniciar la página
+
+window.cargarCarritoDesdeServidor = async function() {
+    try {
+        const res = await fetch(`${API_URL}/cart`, {
+    method: "GET",
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+    }
+});
+
+        if (res.ok) {
+            const productos = await res.json();
+            localStorage.setItem("Articulos", JSON.stringify(productos));
+            window.actualizarNumeroCarrito();
+        }
+    } catch (error) {
+        console.log("No se pudo recuperar el carrito del servidor, usando local.");
+        window.actualizarNumeroCarrito();
+    }
+};
+
+
+document.addEventListener("DOMContentLoaded", window.cargarCarritoDesdeServidor);
+
+
+// Función carrito
+/*window.actualizarNumeroCarrito = function() {
     if (!cuentaCarritoElement) {
         cuentaCarritoElement = document.getElementById("cuenta-carrito");
     }
@@ -150,6 +257,6 @@ window.restarAlCarrito = function(producto) {
     
     localStorage.setItem("Articulos", JSON.stringify(memoria));
     window.actualizarNumeroCarrito();
-};
+};*/
 
 
