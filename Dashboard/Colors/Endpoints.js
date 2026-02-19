@@ -12,11 +12,6 @@ const modalEditar = document.getElementById("modalEditarColor");
 let colorSeleccionadoId = null;
 let listaColores = [];
 
-/* SIDEBAR */
-const menuBtn = document.getElementById("menuBtn");
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
-
 if (menuBtn) {
   menuBtn.addEventListener("click", () => {
     sidebar.classList.toggle("open");
