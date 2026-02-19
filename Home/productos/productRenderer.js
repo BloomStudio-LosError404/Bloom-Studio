@@ -1,6 +1,6 @@
 import { state } from "./state.js";
 import { toggleFavorite } from "./favorites.js";
-import { normalizeImage } from "./normalizeImage.js ";
+import { normalizeImage } from "./normalizeImage.js";
 
 export function renderProducts(container, products = []) {
   container.innerHTML = "";
@@ -37,9 +37,8 @@ function createProductCard(p) {
           <h3 class="product-name">${escapeHTML(p.name)}</h3>
           <p class="product-desc">${escapeHTML(p.description)}</p>
           <div class="product-meta">
-            <span class="product-price">$${Number(p.price || 0).toFixed(2)}</span>
-            <span>⭐ ${p.rating ?? 0} (${p.reviews ?? 0})</span>
-          </div>
+           <span class="product-price">$${Number(p.price || 0).toFixed(2)}</span>
+        </div>
         </div>
       </article>
     </a>
