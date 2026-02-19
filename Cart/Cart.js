@@ -29,7 +29,7 @@ function actualizarTotales() {
     let precio = 0;
 
     productos.forEach(producto => {
-        unidades += producto.precio  * producto.cantidad;
+        unidades += producto.cantidad;
         precio += producto.precio * producto.cantidad;
     });
     actualizarDescuento(precio);
@@ -57,7 +57,8 @@ function crearTarjetasProductosCarrito() {
         const nuevoProducto = document.createElement("div");
         nuevoProducto.classList = "tarjeta-producto";
         nuevoProducto.innerHTML = `
-            <img src="../src/images/products/temporada-14-febrero/temporada-009.JPG" alt="${producto.nombre}">
+            <img src="${producto.imagen}" 
+             alt="${producto.nombre}">
             <h2>${producto.nombre}</h2>
             <p>$${producto.precio}</p>
             <div>
@@ -110,7 +111,7 @@ function aplicarCupon() {
     const productos = JSON.parse(localStorage.getItem("Articulos")) || [];
     const totalCarrito = productos.reduce((acc, p) => acc + (p.precio * p.cantidad), 0);
 
-    if (totalCarrito < cupon.minimoCompra) {
+    if (totalCarrito > cupon.minimoCompra) {
         Swal.fire({
                 icon: "error",
                 title: "El minimo de compra debe ser de $1500",
