@@ -1,3 +1,4 @@
+// catalogLoader.js
 import { DATA_SOURCE_URL } from "./config.js";
 
 export async function loadCatalog() {
