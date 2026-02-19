@@ -1,0 +1,16 @@
+# Comentarios: Ignorar dependencias
+node_modules/
+/dist
+
+# Ignorar archivos de entorno
+.env
+.env.local
+.vscode
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs y bases de datos
+*.log
+*.sqlite
